@@ -10,6 +10,8 @@ import com.jingxiang.common.service.UserService;
 import com.jingxiang.common.service.CrudService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,15 +72,23 @@ public class UserServiceImpl extends CrudService<UserMapper,User> implements Use
 
 	@Override
 	public User findRolesBYUser(String id) {
-		// TODO Auto-generated method stub
 		
 		return UserMapper.findRolesBYUser(id);
 	}
 
 	@Override
 	public User findbyuserName(String userName) {
-		// TODO Auto-generated method stub
 		return UserMapper.findbyuserName(userName);
 	}
-    
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = UserMapper.findbyuserName(username);
+		if(user==null) {
+			throw new UsernameNotFoundException(username);
+		}
+		
+		return null;
+	}
+
 }

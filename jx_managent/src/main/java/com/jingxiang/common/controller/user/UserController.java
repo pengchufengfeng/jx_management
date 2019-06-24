@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +28,6 @@ public class UserController {
    
     @PostMapping("/findList")
     //多字段查询
-    @RequiresRoles("admin")
 	public ResponseBean findListUser(@RequestBody UserRequest UserRequest,ResponseBean rsp){
 		User user = new User();//添加自定义查询
 		user.setUserName(UserRequest.getUserName());
@@ -59,7 +57,6 @@ public class UserController {
 	}
 	
 	@PostMapping("/deleteOne")
-	@RequiresRoles("admin")
 	public ResponseBean deleteUser(@RequestParam("id") String id,ResponseBean rsp){
 		
 		return rsp.setSuccess(userService.deleteOneUser(id));

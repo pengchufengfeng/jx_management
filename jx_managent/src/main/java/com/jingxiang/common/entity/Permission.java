@@ -1,9 +1,15 @@
 package com.jingxiang.common.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import com.jingxiang.common.entity.common.DataEntity;
 
-public class Permission extends DataEntity {
+public class Permission extends DataEntity  implements GrantedAuthority{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String permissionName;
 	private String parentId;
 	private String status;
@@ -50,6 +56,13 @@ public class Permission extends DataEntity {
 
 	public void setPermissionCode(String permissionCode) {
 		this.permissionCode = permissionCode;
+	}
+
+
+	@Override
+	public String getAuthority() {
+		
+		return this.getPermissionCode();
 	}
 
 
