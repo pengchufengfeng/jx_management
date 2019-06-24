@@ -35,7 +35,7 @@ public class AuthenticationServerConfiguration extends AuthorizationServerConfig
 	    @Override
 	    public void configure(AuthorizationServerSecurityConfigurer security)
 	            throws Exception {
-	        security.passwordEncoder(passwordEncoder).and().authorizeRequests().anyRequest().permitAll();
+	       // security.passwordEncoder(passwordEncoder).and().authorizeRequests().anyRequest().permitAll();
 	    }
 
 	   @Override

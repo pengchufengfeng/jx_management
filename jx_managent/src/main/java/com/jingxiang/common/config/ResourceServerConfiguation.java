@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
  * */
 @Configuration
 @EnableResourceServer
-@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class ResourceServerConfiguation  extends ResourceServerConfigurerAdapter{
 		@Value("${security.jwt.key:123456}")
 		private String jwtSigningkey;

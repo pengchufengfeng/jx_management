@@ -4,8 +4,8 @@ spring:
       enabled: true
       file-size-threshold: 4KB
       location: /www/jingxiang/temp
-      max-file-size: 10Mb
-      max-request-size: 50Mb
+      max-file-size: 10MB
+      max-request-size: 50MB
     encoding:
         force: true
         charset: UTF-8
