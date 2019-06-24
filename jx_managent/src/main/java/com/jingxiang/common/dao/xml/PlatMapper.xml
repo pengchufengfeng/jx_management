@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingxiang.common.dao.PlatMapper">
+    <resultMap id="PlatResultMap" type="com.jingxiang.common.entity.Plat">
+        <result column="id" property="id"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="way_name" property="wayName"/>
+        
+    </resultMap>
+
+	<parameterMap type="com.jingxiang.common.entity.Plat" id="PlatParameterMap">
+        <parameter resultMap="id" property="id"/>
+        <parameter resultMap="create_date" property="createDate"/>
+        <parameter resultMap="update_date" property="updateDate"/>
+        <parameter resultMap="del_flag" property="delFlag"/>
+        <parameter resultMap="way_name" property="wayName"/>
+	 </parameterMap>
+ 
+  
+    <insert id="insert" parameterMap="PlatParameterMap" >
+        INSERT INTO sys_plat(
+          id,
+		  way_name,
+		  create_date,
+		  creator,
+		  update_date,
+		  modifier,
+		  del_flag) VALUES(
+        #{id},
+        #{wayName},
+        #{createDate},
+        #{creator},
+        #{updateDate},
+        #{modifier},
+        #{delFlag}
+        )
+    </insert>
+    
+    
+    <update id="deleteById">
+        UPDATE sys_plat
+        SET
+        del_flag = 1,
+        <!-- update_date = #{updateDate}, -->
+        modifier = #{modifier}
+        WHERE id = #{id}
+    </update>
+
+
+    <!--根据entity自定义条件删除-->
+    <update id="delete" parameterMap="PlatParameterMap">
+        update  sys_plat
+        set
+        del_flag = 1,
+        update_date = #{updateDate},
+        modifier = #{modifier}
+        WHERE
+        <if test="nickName != null">
+            nick_name = #{nickName}
+        </if>
+    </update>
+
+    
+    <!--根据id更新平台信息-->
+    <update id="update" parameterMap="PlatParameterMap">
+        UPDATE  sys_plat
+        <set>         
+            <if test="wayName != null">
+                way_name = #{wayName},
+            </if>
+           
+            <if test="modifier != null">
+                modifier = #{modifier},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate}
+            </if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+    
+
+    <!--根据entity自定义条件查询-->
+    <select id="findList" resultMap="PlatResultMap">
+    	select * from sys_plat
+    	where del_flag = 0
+        
+        <if test="wayName != null">
+            AND  way_name like  CONCAT('%', #{wayName}, '%')
+        </if>
+        	order by create_date desc
+    </select>
+    
+    <!--根据id查询单条数据-->
+    <select id="get" resultMap="PlatResultMap">
+    	select * from sys_plat 
+    	where 
+    	id = #{id}
+    </select>
+
+    <!--查找所有数据-->
+    <select id="findAllList" resultMap="PlatResultMap">
+        SELECT * from sys_plat
+        where del_flag = 0
+    </select>
+
+
+    <!--检查用户是否存在于Plat表-->
+    <select id="checkExist" resultMap="PlatResultMap">
+        SELECT *
+        FROM `Plat`
+        WHERE
+           del_flag = 0
+        AND open_id = #{openId}
+     </select>
+</mapper>
+
+

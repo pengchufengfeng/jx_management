@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingxiang.common.dao.ArtistMapper">
+	<resultMap id="ArtistResultMap" type="com.jingxiang.common.entity.Artist">
+		<result column="id" property="id" />
+		<result column="create_date" property="createDate" />
+		<result column="update_date" property="updateDate" />
+		<result column="del_flag" property="delFlag" />
+        <result column="area" property="area" />
+		<result column="title" property="title" />
+		<result column="artist_name" property="artistName" />
+		<result column="info" property="info" />
+		<result column="col_content" property="colContent" />
+		<result column="col_date" property="colDate" />
+		<result column="rel_cetri" property="relCetri" />
+		<result column="auth_photo" property="authPhoto" />
+		<result column="idz" property="idz" />
+		<result column="idf" property="idf" />
+		<result column="commodity_class" property="commodityClass" />
+		<result column="open_id" property="openId" />
+		<result column="session_key" property="sessionKey" />
+	</resultMap>
+
+	<parameterMap type="com.jingxiang.common.entity.Artist"
+		id="ArtistParameterMap">
+		<parameter resultMap="id" property="id" />
+		<parameter resultMap="create_date" property="createDate" />
+		<parameter resultMap="update_date" property="updateDate" />
+		<parameter resultMap="del_flag" property="delFlag" />
+        <parameter resultMap="area" property="area" />
+		<parameter resultMap="title" property="title" />
+		<parameter resultMap="artist_name" property="artistName" />
+		<parameter resultMap="info" property="info" />
+		<parameter resultMap="col_content" property="colContent" />
+		<parameter resultMap="col_date" property="colDate" />
+		<parameter resultMap="rel_cetri" property="relCetri" />
+		<parameter resultMap="auth_photo" property="authPhoto" />
+		<parameter resultMap="idz" property="idz" />
+		<parameter resultMap="idf" property="idf" />
+		<parameter resultMap="commodity_class" property="commodityClass" />
+		<parameter resultMap="open_id" property="openId" />
+		<parameter resultMap="session_key" property="sessionKey" />
+		
+	</parameterMap>
+
+
+	<insert id="insert" parameterMap="ArtistParameterMap">
+		INSERT INTO sys_artist(
+		id,
+		artist_name,
+		info,
+		area,
+		title,
+		col_content,
+		col_date,
+		rel_cetri,
+		auth_photo,
+		idz,
+		idf,
+		commodity_class,
+		open_id,
+		session_key,
+		phone,
+		password,
+		create_date,
+		creator,
+		update_date,
+		modifier,
+		del_flag) VALUES(
+		#{id},
+		#{artistName},
+		#{info},
+		#{area},
+		#{title},
+		#{colContent},
+		#{colDate},
+		#{relCetri},
+		#{authPhoto},
+		#{idz},
+		#{idf},
+		#{commodityClass},
+		#{openId},
+		#{sessionKey},
+		#{phone},
+		#{password},
+		#{createDate},
+		#{creator},
+		#{updateDate},
+		#{modifier},
+		#{delFlag}
+		)
+	</insert>
+
+
+	<update id="deleteById">
+		UPDATE sys_artist
+		SET
+		del_flag = 1,
+		<!-- update_date = #{updateDate}, -->
+		modifier = #{modifier}
+		WHERE id = #{id}
+	</update>
+
+
+	<!--根据entity自定义条件删除 -->
+	<!--<update id="delete" parameterMap="ArtistParameterMap"> -->
+	<!--update sys_artist -->
+	<!--set -->
+	<!--del_flag = 1, -->
+	<!--update_date = #{updateDate}, -->
+	<!--modifier = #{modifier} -->
+	<!--WHERE -->
+	<!--<if test="nickName != null"> -->
+	<!--nick_name = #{nickName} -->
+	<!--</if> -->
+	<!--</update> -->
+
+
+	<!--根据id更新平台信息 -->
+	<update id="update" parameterMap="ArtistParameterMap">
+		UPDATE sys_artist
+		<set>
+			<if test="artistName != null">
+				artist_name = #{artistName},
+			</if>
+			<if test="info != null">
+				info = #{info},
+			</if>
+			<if test="colContent != null">
+				col_content = #{colContent},
+			</if>
+			<if test="colDate != null">
+				col_date = #{colDate},
+			</if>
+			<if test="area != null">
+				area = #{area},
+			</if>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="relCetri != null">
+				rel_cetri = #{relCetri},
+			</if>
+			<if test="authPhoto != null">
+				auth_photo = #{authPhoto},
+			</if>
+			<if test="idz != null">
+				idz = #{idz},
+			</if>
+			<if test="idf != null">
+				idf = #{idf},
+			</if>
+			<if test="commodityClass != null">
+				commodity_class = #{commodityClass},
+			</if>
+			<if test="openId != null">
+				open_id = #{openId},
+			</if>
+			<if test="sessionKey != null">
+				session_key = #{sessionKey},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="phone != null">
+				phone = #{phone},
+			</if>
+			<if test="password != null">
+				password = #{password},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate}
+			</if>
+
+		</set>
+		WHERE
+		id = #{id}
+	</update>
+
+
+	<!--根据entity自定义条件查询 -->
+	<select id="findList" resultMap="ArtistResultMap">
+		select * from sys_artist
+		where del_flag = 0
+
+		<if test="artistName != null">
+			AND artist_name like CONCAT('%', #{artistName}, '%')
+		</if>
+		<if test="phone != null">
+			AND phone = #{phone}
+		</if>
+		<if test="password != null">
+			AND password = #{password}
+		</if>
+		order by create_date desc
+	</select>
+
+	<!--根据id查询单条数据 -->
+	<select id="get" resultMap="ArtistResultMap">
+		select * from sys_artist
+		where
+		id =
+		#{id}
+	</select>
+
+	<!--查找所有数据 -->
+	<select id="findAllList" resultMap="ArtistResultMap">
+		SELECT id,artist_name from sys_artist
+		where del_flag = 0
+	</select>
+
+
+	<!--检查用户是否存在于Artist表 -->
+	<!--<select id="checkExist" resultMap="ArtistResultMap"> -->
+	<!--SELECT * -->
+	<!--FROM `Artist` -->
+	<!--WHERE -->
+	<!--del_flag = 0 -->
+	<!--AND open_id = #{openId} -->
+	<!--</select> -->
+</mapper>
+
+

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingxiang.common.dao.OperationMapper">
+	<resultMap id="OperationResultMap" type="com.jingxiang.common.entity.Operation">
+		<result column="id" property="id" />
+		<result column="create_date" property="createDate" />
+		<result column="update_date" property="updateDate" />
+		<result column="del_flag" property="delFlag" />
+		<result column="platid" property="platid" />
+		<result column="way_name" property="platName" />
+		<result column="activity_name" property="activityName" />
+		<result column="artist_name" property="artistName" /> 
+		<result column="commodity_name" property="commodityName" />
+		<result column="current_activity" property="currentActivity" />
+		<result column="artistid" property="artistid" />
+		<result column="pre_date" property="preDate" />
+
+	</resultMap>
+
+	<parameterMap type="com.jingxiang.common.entity.Operation"
+		id="OperationParameterMap">
+		<parameter resultMap="id" property="id" />
+		<parameter resultMap="create_date" property="createDate" />
+		<parameter resultMap="update_date" property="updateDate" />
+		<parameter resultMap="del_flag" property="delFlag" />
+		<parameter resultMap="platid" property="platid" />
+		<parameter resultMap="way_name" property="platName" />
+		<parameter resultMap="activity_name" property="activityName" />
+		<parameter resultMap="commodity_name" property="commodityName" />
+		<parameter resultMap="current_activity" property="currentActivity" />
+        <parameter resultMap="artist_name" property="artistName" /> 
+		<parameter resultMap="artistid" property="artistid" />
+		<parameter resultMap="pre_date" property="preDate" />
+	</parameterMap>
+
+
+	<insert id="insert" parameterMap="OperationParameterMap">
+		INSERT INTO sys_operation(
+		id,
+		platid,
+		activity_name,
+		current_activity,
+		artistid,
+		commodity_name,
+		pre_date,
+		create_date,
+		creator,
+		update_date,
+		modifier,
+		del_flag) VALUES(
+		#{id},
+		#{platid},
+		#{activityName},
+		#{currentActivity},
+		#{artistid},
+		#{commodityName},
+		#{preDate},
+		#{createDate},
+		#{creator},
+		#{updateDate},
+		#{modifier},
+		#{delFlag}
+		)
+	</insert>
+
+
+	<update id="deleteById">
+		UPDATE sys_operation
+		SET
+		del_flag = 1,
+		<!-- update_date = #{updateDate}, -->
+		modifier = #{modifier}
+		WHERE id = #{id}
+	</update>
+
+
+	<!--根据entity自定义条件删除 -->
+	<update id="delete" parameterMap="OperationParameterMap">
+		update sys_operation
+		set
+		del_flag = 1,
+		update_date = #{updateDate},
+		modifier = #{modifier}
+		WHERE
+		<if test="nickName != null">
+			nick_name = #{nickName}
+		</if>
+	</update>
+
+
+	<!--根据id更新平台信息 -->
+	<update id="update" parameterMap="OperationParameterMap">
+		UPDATE sys_operation
+		<set>
+			<if test="platid != null">
+				platid = #{platid},
+			</if>
+			<if test="activityName != null">
+				activity_name = #{activityName},
+			</if>
+			<if test="currentActivity != null">
+				current_activity = #{currentActivity},
+			</if>
+			<if test="artistid != null">
+				artistid = #{artistid},
+			</if>
+			<if test="commodityName != null">
+				commodity_name = #{commodityName},
+			</if>
+			<if test="preDate != null">
+				pre_date = #{preDate},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate}
+			</if>
+		</set>
+		WHERE
+		id = #{id}
+	</update>
+
+
+	<!--根据entity自定义条件查询 -->
+	<select id="findList" resultMap="OperationResultMap">
+		select o.*,p.way_name,a.artist_name from sys_operation o 
+		left join sys_plat p
+		on o.platid = p.id 
+		left join sys_artist a
+		on o.artistid = a.id
+		where o.del_flag = 0
+		<if test="platName != null  and platName != ''">
+			AND p.way_name like CONCAT('%', #{platName}, '%')
+		</if>
+		<if test="platid != null and platid != ''">
+			AND o.platid = #{platid}
+		</if>
+		<if test="currentActivity != null and currentActivity != ''">
+			AND o.current_activity = #{currentActivity}
+		</if>
+		<if test="activityName != null and activityName != ''">
+			AND o.activity_name like CONCAT('%', #{activityName}, '%')
+		</if>
+		<if test="artistid != null and artistid != '' ">
+			AND o.artistid = #{artistid}
+		</if>
+		order by create_date desc
+	</select>
+
+	<!--根据id查询单条数据 -->
+	<select id="get" resultMap="OperationResultMap">
+		select o.*,a.artist_name,p.way_name from sys_operation o 
+		left join sys_artist a 
+		on o.artistid= a.id
+		left join sys_plat p
+		on o.platid = p.id
+		where
+		o.id = #{id}
+	</select>
+
+	<!--查找所有数据 -->
+	<select id="findAllList" resultMap="OperationResultMap">
+		SELECT * from sys_operation
+		where del_flag = 0
+	</select>
+
+
+	<!--检查用户是否存在于Operation表 -->
+	<select id="checkExist" resultMap="OperationResultMap">
+		SELECT *
+		FROM `sys_operation`
+		WHERE
+		del_flag = 0
+		AND open_id = #{openId}
+	</select>
+</mapper>
+
+

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingxiang.common.dao.SaleMapper">
+    <resultMap id="SaleResultMap" type="com.jingxiang.common.entity.Sale">
+        <result column="id" property="id"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+
+        <result column="commodity_id" property="commodityId"/>
+        <result column="commodity_amount" property="commodityAmount"/>
+        <result column="commodity_num" property="commodityNum"/>
+        <result column="sale_way" property="saleWay"/>
+        <result column="sale_price" property="salePrice"/>
+        <result column="final_price" property="finalPrice"/>
+        <result column="pre_price" property="prePrice"/>
+        <result column="sale_style" property="saleStyle"/>
+        <result column="way_name" property="wayName"/>
+        <result column="commodity_name" property="commodityName"/>
+        <result column="sale_date" property="saleDate"/>
+        <result column="artist_id" property="artistId"/>
+        <result column="artist_name" property="artistName"/>
+        
+    </resultMap>
+
+	<parameterMap type="com.jingxiang.common.entity.Sale" id="SaleParameterMap">
+        <parameter resultMap="id" property="id"/>
+        <parameter resultMap="create_date" property="createDate"/>
+        <parameter resultMap="update_date" property="updateDate"/>
+        <parameter resultMap="del_flag" property="delFlag"/>
+
+        <parameter resultMap="commodity_id" property="commodityId"/>
+        <parameter resultMap="commodity_amount" property="commodityAmount"/>
+        <parameter resultMap="commodity_num" property="commodityNum"/>
+        <parameter resultMap="sale_way" property="saleWay"/>
+        <parameter resultMap="sale_price" property="salePrice"/>
+        <parameter resultMap="final_price" property="finalPrice"/>
+        <parameter resultMap="pre_price" property="prePrice"/>
+        <parameter resultMap="sale_style" property="saleStyle"/>
+        <parameter resultMap="way_name" property="wayName"/>
+        <parameter resultMap="commodity_name" property="commodityName"/>
+        <parameter resultMap="sale_date" property="saleDate"/>
+        <parameter  property="startDate"/>
+        <parameter  property="endDate"/>
+        <parameter resultMap="artist_id" property="artistId"/>
+        
+	 </parameterMap>
+ 
+  
+    <insert id="insert" parameterMap="SaleParameterMap" >
+        INSERT INTO sys_sale(
+        id,
+        commodity_id,
+        commodity_amount,
+        sale_way,
+        sale_price,
+        final_price,
+        pre_price,
+        sale_style,
+        sale_date,
+        artist_id,
+		create_date,
+		creator,
+		update_date,
+		modifier,
+		del_flag) VALUES(
+        #{id},
+        #{commodityId},
+        #{commodityAmount},
+        #{saleWay},
+        #{salePrice},
+        #{finalPrice},
+        #{prePrice},
+        #{saleStyle},
+        #{saleDate},
+        #{artistId},
+        #{createDate},
+        #{creator},
+        #{updateDate},
+        #{modifier},
+        #{delFlag}
+        )
+    </insert>
+    
+    
+    <update id="deleteById">
+        UPDATE sys_sale
+        SET
+        del_flag = 1,
+        <!-- update_date = #{updateDate}, -->
+        modifier = #{modifier}
+        WHERE id = #{id}
+    </update>
+
+
+    <!--根据entity自定义条件删除-->
+    <!--<update id="delete" parameterMap="SaleParameterMap">-->
+        <!--update  sys_sale-->
+        <!--set-->
+        <!--del_flag = 1,-->
+        <!--update_date = #{updateDate},-->
+        <!--modifier = #{modifier}-->
+        <!--WHERE-->
+        <!--<if test="nickName != null">-->
+            <!--nick_name = #{nickName}-->
+        <!--</if>-->
+    <!--</update>-->
+
+    
+    <!--根据id更新平台信息-->
+    <update id="update" parameterMap="SaleParameterMap">
+        UPDATE  sys_sale
+        <set>        
+            <if test="commodityId != null ">
+               commodity_id = #{commodityId},
+            </if>
+            
+            <if test="commodityAmount != null">
+               commodity_amount = #{commodityAmount},
+            </if>
+            <if test="saleWay != null">
+               sale_way = #{saleWay},
+            </if>
+            <if test="salePrice != null">
+               sale_price = #{salePrice},
+            </if>
+            
+            <if test="finalPrice != null">
+               final_price = #{finalPrice},
+            </if>
+            <if test="prePrice != null">
+               pre_price = #{prePrice},
+            </if>
+            <if test="saleStyle != null">
+               sale_style = #{saleStyle},
+            </if>
+            <if test="saleDate != null">
+               sale_date = #{saleDate},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier},
+            </if>
+            <if test="updateDate != null">
+               update_date = #{updateDate}
+            </if>
+         </set>
+        WHERE
+        id = #{id}
+    </update>
+    
+
+    <!--根据entity自定义条件查询-->
+    <select id="findList" resultMap="SaleResultMap">
+    	select s.*,c.commodity_name ,c.commodity_num, c.photo photo,c.class_name className,p.way_name,a.artist_name  from sys_sale s
+        left join sys_commodity c
+        on s.commodity_id = c.id
+        left join sys_plat p
+        on s.sale_way = p.id
+        left join sys_artist a
+        on s.artist_id = a.id
+    	where s.del_flag = 0
+        
+        <if test="commodityName != null and commodityName != '' ">
+            AND  c.commodity_name like  CONCAT('%', #{commodityName}, '%')
+        </if>
+         <if test="commodityNum != null and commodityNum != ''">
+            AND  c.commodity_num like  CONCAT('%', #{commodityNum}, '%')
+        </if>
+        <if test="className != null and className != ''">
+            AND  c.class_name like  CONCAT('%', #{className}, '%')
+        </if>
+        <if test="wayName != null and wayName != ''">
+	        AND p.way_name = #{wayName}
+        </if>
+        <if test="artistId != null and artistId != ''">
+            AND s.artist_id = #{artistId}
+        </if>
+        <!-- saleName represent platid -->
+        <if test="saleWay != null and saleWay != ''">
+	        AND c.sale_way = #{saleWay}
+        </if>
+        <!-- 时间段判断 -->
+        <if test="startDate != null and startDate != ''">
+        AND s.sale_date <![CDATA[>=]]> #{startDate}</if>
+       
+        <if test="endDate != null and endDate != ''">
+        AND s.sale_date <![CDATA[<=]]>#{endDate}</if>
+        	order by s.create_date desc
+    </select>
+    
+    <!--根据id查询单条数据-->
+    <select id="get" resultMap="SaleResultMap">
+    	select s.*,c.commodity_name,c.commodity_num,p.way_name,a.artist_name from sys_sale s
+    	left join sys_commodity c
+    	on s.commodity_id = c.id
+    	left join sys_plat p
+    	on s.sale_way = p.id
+    	left join sys_artist a
+        on s.artist_id = a.id
+    	where 
+    	s.id = #{id}
+    </select>
+
+    <!--查找所有数据-->
+    <select id="findAllList" resultMap="SaleResultMap">
+        SELECT * from sys_sale
+        where del_flag = 0
+    </select>
+
+
+    <!--总销售额-->
+    <select id="allSalePrice" resultType="java.lang.Integer">
+        select sum(sale_price) from sys_sale WHERE del_flag=0 and artist_id=#{artistId}
+    </select>
+    <!--总结算额-->
+    <select id="allFinalPrice" resultType="java.lang.Integer">
+        select sum(final_price) from sys_sale WHERE del_flag=0 and artist_id=#{artistId}
+    </select>
+    <!--总销售量-->
+    <select id="allCommodityAmount" resultType="java.lang.Integer">
+        select sum(commodity_amount) from sys_sale WHERE del_flag=0 and artist_id=#{artistId}
+    </select>
+    <!--某商品销售量-->
+    <select id="getCommodityAmount" resultType="java.lang.Integer">
+        select sum(commodity_amount) from sys_sale WHERE del_flag=0 and commodity_id=#{commodityId}
+    </select>
+
+    <!--匠人月销售额折线图-->
+    <select id="monthSalePrice" resultType="com.jingxiang.common.entity.MonthData">
+        select
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.sale_price else 0 end) smonth6,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.sale_price else 0 end) smonth5,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.sale_price else 0 end) smonth4,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.sale_price else 0 end) smonth3,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.sale_price else 0 end) smonth2,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.sale_price else 0 end) smonth1,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) fmonth6,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) fmonth5,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) fmonth4,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) fmonth3,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) fmonth2,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) fmonth1
+
+        from sys_sale s
+
+        WHERE s.del_flag = 0
+
+    </select>
+
+    <!--匠人月结算额折线图 -->
+    <select id="monthFinalPrice" resultType="com.jingxiang.common.entity.MonthData">
+        select
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) month6,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) month5,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) month4,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) month3,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) month2,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) month1
+        from sys_sale s
+        WHERE s.del_flag = 0
+        and s.artist_id=#{artistId}
+    </select>
+
+    <!--TODO平台销售额和结算额饼形图-->
+    <select id="platSaleAndFinallyPrice" resultType="com.jingxiang.common.entity.MonthData">
+        select p.way_name platName,
+         sum(s.sale_price) saleMoney,
+        sum(s.final_price) FinallyMoney
+        from sys_sale s
+        left join sys_plat p
+        on s.sale_way = p.id
+        WHERE s.del_flag = 0
+        and s.artist_id=#{artistId}
+        GROUP BY s.sale_way
+    </select>
+
+    <!--平台结算额饼形图 -->
+    <select id="platFinalPrice" resultType="com.jingxiang.common.entity.MonthData">
+        select p.way_name platName,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) smonth6,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) smonth5,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) smonth4,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) smonth3,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) smonth2,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) smonth1
+        from sys_sale s
+        left join sys_plat p
+        on s.sale_way = p.id
+        WHERE s.del_flag = 0
+        and s.artist_id=#{artistId}
+        GROUP BY s.sale_way
+    </select>
+
+    <!--商品销售量折线图 -->
+    <select id="monthCommodityAmount" resultType="com.jingxiang.common.entity.MonthData">
+        select
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.commodity_amount else 0 end) smonth6,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.commodity_amount else 0 end) smonth5,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.commodity_amount else 0 end) smonth4,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.commodity_amount else 0 end) smonth3,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.commodity_amount else 0 end) smonth2,
+        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.commodity_amount else 0 end) smonth1
+        from sys_sale s
+        WHERE s.del_flag = 0
+        and s.artist_id=#{artistId}
+    </select>
+
+   <!-- 商品销售量条形图-->
+    <select id="classMonthCommodityAmount" resultType="com.jingxiang.common.entity.MonthData">
+        select c.class_name className,
+        sum(commodity_amount) commodityAmount
+        from sys_sale s
+        left join sys_commodity c
+        on s.commodity_id = c.id
+        WHERE s.del_flag = 0
+        and s.artist_id=#{artistId}
+        GROUP BY s.commodity_id
+    </select>
+
+</mapper>
+
+
