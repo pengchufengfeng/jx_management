@@ -2,7 +2,6 @@ package com.jingxiang.common.controller.expection;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.ShiroException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,13 +13,13 @@ import com.jingxiang.common.expection.UnauthorizedException;
 @RestControllerAdvice
 public class ExceptionController {
 
-    // 捕捉shiro的异常
+  /*  // 捕捉shiro的异常
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ShiroException.class)
     public ResponseBean handle401(ShiroException e) {
         return new ResponseBean(401, e.getMessage(), null);
     }
-
+*/
     // 捕捉UnauthorizedException
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)

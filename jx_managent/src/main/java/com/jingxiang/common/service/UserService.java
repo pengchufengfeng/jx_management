@@ -2,11 +2,13 @@ package com.jingxiang.common.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.github.pagehelper.PageInfo;
 import com.jingxiang.common.entity.User;
 import com.jingxiang.common.entity.common.Paging;
 
-public interface UserService {
+public interface UserService extends UserDetailsService{
 	
 	List<User> findListUser(User User);//列表查询
 

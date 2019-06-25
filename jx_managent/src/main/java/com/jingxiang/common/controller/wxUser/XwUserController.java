@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import com.jingxiang.common.dao.UserMapper;
 import com.jingxiang.common.entity.User;
 import com.jingxiang.common.service.WxUserService;
-import com.jingxiang.common.util.TokenUtil;
 
 
 @RestController
@@ -24,14 +22,7 @@ public class XwUserController {
     @Value("${wx.AppSecret}")
     private String appSecret;
     @Autowired
-    private TokenUtil tokenUtil;
-    @Autowired
     private WxUserService wxUserService;
-    @Autowired
-    private UserMapper userMapper;
-
-
-
     @ApiOperation(value="新增用户", notes="获取code后 获得openId 和sessionKey 返回openId（后期用TOKEN加redis）给前端用于识别个人信息",httpMethod="POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "code",paramType="query", required = true, dataType = "String")
