@@ -148,12 +148,12 @@
                   r.id role_id,
                   r.role_name role_name,
                   r.role_code role_code
-                  
-            FROM
-                  sys_user u,
-                  sys_role r,
-                  sys_user_role ur
-            WHERE u.id = ur.user_id AND r.id=ur.role_id AND  u.id = #{id}
+            FROM sys_user_role ur
+            left join  sys_role u
+            on   u.id = ur.user_id
+            left join  sys_user r
+            on   r.id=ur.role_id
+            WHERE  ur.user_id = #{id}
     </select>
 </mapper>
 
