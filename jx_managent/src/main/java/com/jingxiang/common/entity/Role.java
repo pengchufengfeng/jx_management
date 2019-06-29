@@ -4,12 +4,18 @@ import java.util.List;
 
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import com.jingxiang.common.entity.common.DataEntity;
 
 @Table(name = "sys_role")
-public class Role extends DataEntity{
+public class Role extends DataEntity implements GrantedAuthority{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String roleName;
 	private String roleCode;
 	private List<Permission> permissionList;
@@ -40,6 +46,12 @@ public class Role extends DataEntity{
 
 	public void setPermissionList(List<Permission> permissionList) {
 		this.permissionList = permissionList;
+	}
+
+	@Override
+	public String getAuthority() {
+		
+		return this.getRoleCode();
 	}
 
 }

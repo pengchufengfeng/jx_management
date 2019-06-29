@@ -3,19 +3,24 @@ package com.jingxiang.common.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jingxiang.common.dao.RoleMapper;
 import com.jingxiang.common.dao.UserMapper;
+import com.jingxiang.common.entity.Role;
 import com.jingxiang.common.entity.User;
 import com.jingxiang.common.entity.common.Paging;
 import com.jingxiang.common.service.UserService;
 import com.jingxiang.common.service.CrudService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -25,6 +30,8 @@ public class UserServiceImpl extends CrudService<UserMapper,User> implements Use
 
 	@Autowired
     private UserMapper UserMapper;
+	@Autowired
+	private RoleMapper roleMapper;
     @Override
     public List<User> findListUser(User user) {
         return findList(user);
@@ -87,8 +94,15 @@ public class UserServiceImpl extends CrudService<UserMapper,User> implements Use
 		if(user==null) {
 			throw new UsernameNotFoundException(username);
 		}
-		
-		return null;
+		User findRolesBYUser = UserMapper.findRolesBYUser(user.getId());
+		List<Role> roleList = findRolesBYUser.getRoleList();
+				Set<GrantedAuthority> authorities=new HashSet<>();
+				authorities.addAll(roleList);
+				for(Role r:roleList) {
+					Role role = roleMapper.findPerByRole(r.getId());
+					authorities.addAll(role.getPermissionList());
+				}
+		return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
 	}
 
 }
