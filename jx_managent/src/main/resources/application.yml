@@ -18,7 +18,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://39.98.254.36:3306/jx_management?characterEncoding=utf-8  #这里配置数据库
+    url: jdbc:mysql://127.0.0.1:3306/jx_management?characterEncoding=utf-8&useSSL=false  #这里配置数据库
     username: root
     password: jingxiang
     minPoolSize: 3

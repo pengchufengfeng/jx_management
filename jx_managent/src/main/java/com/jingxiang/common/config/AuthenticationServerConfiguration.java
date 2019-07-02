@@ -15,23 +15,28 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import com.jingxiang.common.service.UserService;
 
-	
+
+
 @Configuration
 @EnableAuthorizationServer
 public class AuthenticationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
 	 	@Autowired
 	    private AuthenticationManager authenticationManager;
-	   @Autowired
+	    @Autowired
 	    PasswordEncoder passwordEncoder;
+	    @Autowired
+	    UserService userservice;
 		@Value("${security.jwt.key:123456}")
-	   private String jwtSigningkey;
+		private String jwtSigningkey;
 	    @Override
 	    public void configure(AuthorizationServerSecurityConfigurer security)
 	            throws Exception {
@@ -41,8 +46,8 @@ public class AuthenticationServerConfiguration extends AuthorizationServerConfig
 	   @Override
 	    public void configure(AuthorizationServerEndpointsConfigurer endpoints)
 	            throws Exception {
-	    	TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-	        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(this.JwtAccessTokenConverter()));
+		   TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+	        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(this.JwtAccessTokenConverter(),tokenEnhancer()));
 	        endpoints
 	                .authenticationManager(authenticationManager)
 	                .tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain);
@@ -82,5 +87,10 @@ public class AuthenticationServerConfiguration extends AuthorizationServerConfig
 			tokenService.setSupportRefreshToken(true);
 			return tokenService;
 		}
+		 @Bean
+		    public TokenEnhancer tokenEnhancer() {
+		    	return new CustomTokenEnhancer(userservice);
+		    	
+		    }
 	    }
 

@@ -149,10 +149,10 @@
                   r.role_name role_name,
                   r.role_code role_code
             FROM sys_user_role ur
-            left join  sys_role u
-            on   u.id = ur.user_id
-            left join  sys_user r
-            on   r.id=ur.role_id
+            left join  sys_role r
+            on   r.id = ur.role_id
+            left join  sys_user u
+            on   u.id=ur.user_id
             WHERE  ur.user_id = #{id}
     </select>
 </mapper>
