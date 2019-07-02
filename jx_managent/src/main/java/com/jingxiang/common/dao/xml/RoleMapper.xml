@@ -32,7 +32,7 @@
 
 	
 	<select id="findPerByRole" resultMap="RoleResultMap">
-            SELECT 
+               SELECT 
                   r.*,
                   p.id per_id,
                   p.status status,
@@ -40,7 +40,7 @@
                   p.permission_name permission_name,
                   p.permission_code permission_code
             FROM
-                  sys_role_permission rp,
+                  sys_role_permission rp
             left join  sys_role r
             on r.id=rp.role_id
             left join sys_permission p
