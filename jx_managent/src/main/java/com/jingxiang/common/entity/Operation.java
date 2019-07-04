@@ -2,6 +2,7 @@ package com.jingxiang.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jingxiang.common.entity.common.DataEntity;
+import com.sun.tools.javac.util.List;
 
 import java.util.Date;
 
@@ -18,12 +19,16 @@ public class Operation extends DataEntity {
 	private String currentActivity;
     //艺术家id
 	private String artistid;
+	//艺术家list
+	//private List<String> artistidNameList;
 	//艺术家名称
 	private String artistName;
 	//预计上线时间
 	private Date preDate;
 	//产品名称
 	private String commodityName;
+	//备注
+	private String note;
 
 	public String getArtistid() {
 		return artistid;
@@ -94,4 +99,18 @@ public class Operation extends DataEntity {
 		this.commodityName = commodityName;
 	}
 
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	/*
+	 * public List<String> getArtistidNameList() { return artistidNameList; }
+	 * 
+	 * public void setArtistidNameList(List<String> artistidNameList) {
+	 * this.artistidNameList = artistidNameList; }
+	 */
 }

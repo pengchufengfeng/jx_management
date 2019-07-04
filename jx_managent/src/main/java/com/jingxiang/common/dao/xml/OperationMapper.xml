@@ -14,6 +14,7 @@
 		<result column="current_activity" property="currentActivity" />
 		<result column="artistid" property="artistid" />
 		<result column="pre_date" property="preDate" />
+		<result column="note" property="note" />
 
 	</resultMap>
 
@@ -31,6 +32,7 @@
         <parameter resultMap="artist_name" property="artistName" /> 
 		<parameter resultMap="artistid" property="artistid" />
 		<parameter resultMap="pre_date" property="preDate" />
+		<parameter resultMap="note" property="note" />
 	</parameterMap>
 
 
@@ -43,6 +45,7 @@
 		artistid,
 		commodity_name,
 		pre_date,
+		note,
 		create_date,
 		creator,
 		update_date,
@@ -50,6 +53,7 @@
 		del_flag) VALUES(
 		#{id},
 		#{platid},
+		#{note},
 		#{activityName},
 		#{currentActivity},
 		#{artistid},

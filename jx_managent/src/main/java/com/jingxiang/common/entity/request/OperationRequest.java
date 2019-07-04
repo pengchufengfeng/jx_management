@@ -1,5 +1,7 @@
 package com.jingxiang.common.entity.request;
 
+import com.sun.tools.javac.util.List;
+
 public class OperationRequest {
 
 
@@ -32,6 +34,8 @@ public class OperationRequest {
 	private String activityName;
 	private String currentActivity;
 	private String artistid;
+	private String note;
+	//private List<String> artistIdList;
 	//产品名称
 	private String commodityName;
 
@@ -48,5 +52,17 @@ public class OperationRequest {
 	}
 	public void setCommodityName(String commodityName) {
 		this.commodityName = commodityName;
+	}
+
+	/*
+	 * public List<String> getArtistIdList() { return artistIdList; } public void
+	 * setArtistIdList(List<String> artistIdList) { this.artistIdList =
+	 * artistIdList; }
+	 */
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 }
