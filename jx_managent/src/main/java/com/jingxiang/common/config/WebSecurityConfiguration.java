@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
@@ -43,8 +42,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	
-		http.anonymous().disable().authorizeRequests().anyRequest().permitAll()
-		.and().csrf().disable().headers().frameOptions().sameOrigin();
+		http.anonymous().disable().authorizeRequests().anyRequest().authenticated()
+		.and().csrf().disable();
     }
 
     @Override
