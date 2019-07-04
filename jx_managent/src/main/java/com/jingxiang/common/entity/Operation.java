@@ -2,7 +2,6 @@ package com.jingxiang.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jingxiang.common.entity.common.DataEntity;
-import com.sun.tools.javac.util.List;
 
 import java.util.Date;
 

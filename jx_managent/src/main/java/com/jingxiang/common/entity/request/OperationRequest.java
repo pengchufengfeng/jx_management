@@ -1,6 +1,5 @@
 package com.jingxiang.common.entity.request;
 
-import com.sun.tools.javac.util.List;
 
 public class OperationRequest {
 
