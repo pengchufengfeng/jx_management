@@ -43,8 +43,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
     	
 		http.anonymous().disable().authorizeRequests().anyRequest().authenticated()
-		.and().csrf().disable();
-    }
+		.and().csrf().disable().
+		authorizeRequests()
+        .antMatchers(
+                "/webjars/**",
+                "/resources/**",
+                "/swagger-ui.html",
+                "/swagger-resources/**",
+                "/v2/api-docs")
+        .permitAll();
+		}
 
     @Override
     public void configure(WebSecurity web) throws Exception {

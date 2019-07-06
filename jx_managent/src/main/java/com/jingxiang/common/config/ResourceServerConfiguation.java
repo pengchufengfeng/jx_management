@@ -18,7 +18,7 @@ public class ResourceServerConfiguation  extends ResourceServerConfigurerAdapter
 		private String jwtSigningkey;
 	@Override 
 	public void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().disable().authorizeRequests().anyRequest().permitAll();
+		http.httpBasic().disable();
 	}
 	
 	@Override
