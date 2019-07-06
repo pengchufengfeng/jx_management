@@ -42,21 +42,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	
-		http.anonymous().disable().authorizeRequests().anyRequest().authenticated()
-		.and().csrf().disable().
-		authorizeRequests()
+		http.anonymous().disable().authorizeRequests()
         .antMatchers(
                 "/webjars/**",
                 "/resources/**",
                 "/swagger-ui.html",
                 "/swagger-resources/**",
                 "/v2/api-docs")
-        .permitAll();
+        .permitAll().anyRequest().authenticated()
+		.and().csrf().disable();
+		
 		}
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/favor.ioc");
+        web.ignoring().antMatchers("/favor.ioc","/webjars/**",
+                "/resources/**",
+                "/swagger-ui.html",
+                "/swagger-resources/**",
+                "/v2/api-docs");
     }
 
 
