@@ -211,8 +211,11 @@
 
     <!--查找所有数据-->
     <select id="findAllList" resultMap="CommodityResultMap">
-        SELECT id,commodity_num, commodity_name from sys_commodity
-        where del_flag = 0
+        SELECT c.id,c.commodity_num,c.class_name,c.commodity_name,c.photo,c.artist, a.artist_name 
+        from sys_commodity c
+        left join sys_artist a
+        on a.id = c.artist
+        where c.del_flag = 0
     </select>
     <!--获得分类编号-->
     <select id="getClassNum" resultType="java.lang.String">

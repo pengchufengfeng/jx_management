@@ -16,11 +16,11 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 public class ResourceServerConfiguation  extends ResourceServerConfigurerAdapter{
 		@Value("${security.jwt.key:123456}")
 		private String jwtSigningkey;
-	/*@Override 
+	@Override 
 	public void configure(HttpSecurity http) throws Exception {
-		//http.httpBasic().disable();
-	}*/
-	
+		http.httpBasic().disable().authorizeRequests().anyRequest().permitAll();
+	}
+
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
 	}

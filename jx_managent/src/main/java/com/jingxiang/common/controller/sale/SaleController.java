@@ -88,6 +88,7 @@ public class SaleController {
 		//int saleNum = sale.getCommodityAmount();
 		String comId = sale.getCommodityId();
 		Commodity commodity = commodityService.getOneCommodity(comId);
+		
 		/*int comStock = commodity.getCommodityStock();
 		if (saleNum <= comStock) {
 			comStock = comStock - saleNum;
@@ -101,8 +102,10 @@ public class SaleController {
 		} else {
 			rsp.setError("库存不足，请重新输入！");
 		}*/
-        String artistid=commodity.getArtistId();
-        sale.setArtistId(artistid);
+        //String artistid=commodity.getArtistId();
+        //sale.setArtistId(artistid);
+        //sale.setCommodityName(commodity.getCommodityName());
+        //sale.setCommodityNum(commodity.getCommodityNum());
 		return rsp.setSuccess(saleService.addOneSale(sale));
 	}
 
@@ -114,6 +117,12 @@ public class SaleController {
 
 	@PostMapping("/updateOne")
 	public ResponseBean updateSale(@RequestBody Sale sale, ResponseBean rsp) {
+		//String comId = sale.getCommodityId();
+		//Commodity commodity = commodityService.getOneCommodity(comId);
+		//String artistid=commodity.getArtistId();
+	   // sale.setArtistId(artistid);
+	    /*sale.setCommodityName(commodity.getCommodityName());
+	    sale.setCommodityNum(commodity.getCommodityNum());*/
 		return rsp.setSuccess(saleService.updateOneSale(sale));
 	}
 

@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
-@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Autowired
@@ -42,14 +41,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	
-		http.anonymous().disable().authorizeRequests()
-        .antMatchers(
-                "/webjars/**",
-                "/resources/**",
-                "/swagger-ui.html",
-                "/swagger-resources/**",
-                "/v2/api-docs")
-        .permitAll().anyRequest().authenticated()
+		http.anonymous().disable().authorizeRequests().anyRequest().permitAll()
+      
 		.and().csrf().disable();
 		
 		}

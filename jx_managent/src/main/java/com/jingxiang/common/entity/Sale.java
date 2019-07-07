@@ -13,7 +13,7 @@ public class Sale extends DataEntity {
 	private String commodityId;
 	//商品名称
 	private String commodityName;
-	//商品b编号
+	//商品编号
 	private String commodityNum;
 	//商品销售量
 	private int commodityAmount;
@@ -36,12 +36,9 @@ public class Sale extends DataEntity {
 	//平台名称
 	private String wayName;
 	//查找开始时间
-	 
     private Date startDate;
-    
     //结束时间
     private Date endDate;
-
     private String artistId;
     private String artistName;
 

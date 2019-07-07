@@ -71,8 +71,8 @@ public class CommodityController {
 
 	@PostMapping("/updateOne")
 	public ResponseBean updateCommodity(@RequestBody Commodity commodity, ResponseBean rsp,MultipartFile file) {
-		System.out.println(commodity.getCommodityShelf()+"上架量");
-		System.out.println(commodity.getCommodityStock()+"库量");
+		/*System.out.println(commodity.getCommodityShelf()+"上架量");
+		System.out.println(commodity.getCommodityStock()+"库量");*/
 		return rsp.setSuccess(commodityService.updateOneCommodity(commodity));
 
 	}
