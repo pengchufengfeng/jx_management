@@ -160,7 +160,7 @@ public class SaleController {
 				System.out.println("comStock" + comStock + "上架");
 			}
 		} else {
-			rsp.setError("库存不足，请重新输入商品数量！");
+			 return rsp.setError("库存不足，请重新输入商品数量！");
 		}
 		String artistid = commodity.getArtistId();
 		sale.setArtistId(artistid);
