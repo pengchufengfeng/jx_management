@@ -45,7 +45,7 @@ public class SaleController {
 		sale.setCommodityNum(saleRequest.getCommodityNum());
 		sale.setEndDate(saleRequest.getEndDate());
 		sale.setStartDate(saleRequest.getStartDate());
-		
+
 		return rsp.setSuccess(saleService.findListSale(sale));
 	}// 列表查询
 
@@ -94,65 +94,82 @@ public class SaleController {
 				commodity.setCommodityStock(comStock);
 				commodity.setCommodityStatus("已售完");
 				commodityService.updateOneCommodity(commodity);
-				System.out.println("comStock"+comStock+"已售完");
+				System.out.println("comStock" + comStock + "已售完");
 			} else {
 				commodity.setCommodityStock(comStock);
 				commodity.setCommodityStatus("上架");
 				commodityService.updateOneCommodity(commodity);
-				System.out.println("comStock"+comStock+"上架");
+				System.out.println("comStock" + comStock + "上架");
 			}
 		} else {
-			rsp.setError("库存不足，请重新输入商品数量！");
+			return rsp.setError("库存不足，请重新输入商品数量！");
 		}
-        String artistid=commodity.getArtistId();
-        sale.setArtistId(artistid);
+		String artistid = commodity.getArtistId();
+		sale.setArtistId(artistid);
 		return rsp.setSuccess(saleService.addOneSale(sale));
 	}
 
 	@PostMapping("/deleteOne")
 	public ResponseBean deleteSale(@RequestParam("id") String id, ResponseBean rsp) {
 
+		Sale oldSale = saleService.getOneSale(id);
+		Commodity commodity = commodityService.getOneCommodity(oldSale.getCommodityId());
+		// 目前库存
+		int comStock = commodity.getCommodityStock();
+		int saleNum = oldSale.getCommodityAmount();
+		comStock += saleNum;
+		if (comStock == 0) {
+			commodity.setCommodityStock(comStock);
+			commodity.setCommodityStatus("已售完");
+			commodityService.updateOneCommodity(commodity);
+			System.out.println("comStock" + comStock + "已售完");
+		} else {
+			commodity.setCommodityStock(comStock);
+			commodity.setCommodityStatus("上架");
+			commodityService.updateOneCommodity(commodity);
+			System.out.println("comStock" + comStock + "上架");
+		}
 		return rsp.setSuccess(saleService.deleteOneSale(id));
 	}
 
 	@PostMapping("/updateOne")
 	public ResponseBean updateSale(@RequestBody Sale sale, ResponseBean rsp) {
-		
+
 		int saleNum = sale.getCommodityAmount();
 		String comId = sale.getCommodityId();
 		Commodity commodity = commodityService.getOneCommodity(comId);
 		Sale oldSale = saleService.getOneSale(sale.getId());
-		//目前库存
+		// 目前库存
 		int comStock = commodity.getCommodityStock();
 		// 旧销售数量
 		int oldSaleNum = oldSale.getCommodityAmount();
-		//旧的库存
+		// 旧的库存
 		int oldStock = comStock + oldSaleNum;
-		
+
 		if (saleNum <= oldStock) {
 			comStock = oldStock - saleNum;
 			if (comStock == 0) {
 				commodity.setCommodityStock(comStock);
 				commodity.setCommodityStatus("已售完");
 				commodityService.updateOneCommodity(commodity);
-				System.out.println("comStock"+comStock+"已售完");
+				System.out.println("comStock" + comStock + "已售完");
 			} else {
 				commodity.setCommodityStock(comStock);
 				commodity.setCommodityStatus("上架");
 				commodityService.updateOneCommodity(commodity);
-				System.out.println("comStock"+comStock+"上架");
+				System.out.println("comStock" + comStock + "上架");
 			}
 		} else {
 			rsp.setError("库存不足，请重新输入商品数量！");
 		}
-        String artistid=commodity.getArtistId();
-        sale.setArtistId(artistid);
+		String artistid = commodity.getArtistId();
+		sale.setArtistId(artistid);
 		return rsp.setSuccess(saleService.updateOneSale(sale));
 	}
 
 	@PostMapping("/getComSaleNum")
-	public ResponseBean getComSaleNum(ResponseBean rsp,@RequestParam("id") String id) {
-		
+	public ResponseBean getComSaleNum(ResponseBean rsp, @RequestParam("id") String id) {
+
 		return rsp.setSuccess(saleService.getComSaleNum(id));
 
 	}
@@ -164,44 +181,42 @@ public class SaleController {
 	//// }
 
 	@PostMapping("/allSalePrice")
-	Integer allSalePrice(@RequestParam("artistId") String artistId){
+	Integer allSalePrice(@RequestParam("artistId") String artistId) {
 		return saleService.allSalePrice(artistId);
 	}
 
 	@PostMapping("/allFinalPrice")
-	Integer allFinalPrice(@RequestParam("artistId") String artistId){
+	Integer allFinalPrice(@RequestParam("artistId") String artistId) {
 		return saleService.allFinalPrice(artistId);
 	}
 
 	@PostMapping("/allCommodityAmount")
-	Integer allCommodityAmount(@RequestParam("artistId") String artistId){
+	Integer allCommodityAmount(@RequestParam("artistId") String artistId) {
 		return saleService.allCommodityAmount(artistId);
 	}
 
 	@PostMapping("/monthSalePrice")
-	MonthData monthSalePrice(@RequestParam("artistId") String artistId){
+	MonthData monthSalePrice(@RequestParam("artistId") String artistId) {
 		return saleService.monthSalePrice(artistId);
 	}
 
-
 	@PostMapping("/monthFinalPrice")
-	MonthData monthFinalPrice(@RequestParam("artistId") String artistId){
+	MonthData monthFinalPrice(@RequestParam("artistId") String artistId) {
 		return saleService.monthFinalPrice(artistId);
 	}
 
 	@PostMapping("/monthCommodityAmount")
-	MonthData monthCommodityAmount(@RequestParam("artistId") String artistId){
+	MonthData monthCommodityAmount(@RequestParam("artistId") String artistId) {
 		return saleService.monthCommodityAmount(artistId);
 	}
 
-
 	@PostMapping("/platSaleAndFinallyPrice")
-	List<MonthData> platSaleAndFinallyPrice(@RequestParam("artistId") String artistId){
+	List<MonthData> platSaleAndFinallyPrice(@RequestParam("artistId") String artistId) {
 		return saleService.platSaleAndFinallyPrice(artistId);
 	}
 
 	@PostMapping("/classMonthCommodityAmount")
-	List<MonthData> classMonthCommodityAmount(@RequestParam("artistId") String artistId){
+	List<MonthData> classMonthCommodityAmount(@RequestParam("artistId") String artistId) {
 		return saleService.classMonthCommodityAmount(artistId);
 	}
 
