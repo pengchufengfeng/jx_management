@@ -16,6 +16,7 @@ import com.jingxiang.common.entity.request.CommodityPageReq;
 import com.jingxiang.common.entity.request.CommodityRequet;
 import com.jingxiang.common.service.CommodityService;
 import com.jingxiang.common.util.ImageUtils;
+import com.jingxiang.common.util.PinyinUtils;
 
 @RestController
 @RequestMapping("/commodity")
@@ -53,13 +54,15 @@ public class CommodityController {
 
 	@PostMapping("/getOne")
 	public ResponseBean getOneCommodity(@RequestParam("id") String id, ResponseBean rsp) {
-		
+
 		return rsp.setSuccess(commodityService.getOneCommodity(id));
 	}
 
 	@PostMapping("/addOne")
 	public ResponseBean addCommodity(@RequestBody Commodity commodity, ResponseBean rsp) {
-		
+        String comName = commodity.getCommodityName();
+		String comNum = transComNUm(comName);
+		commodity.setCommodityNum(comNum);
 		return rsp.setSuccess(commodityService.addOneCommodity(commodity));
 	}
 
@@ -70,9 +73,17 @@ public class CommodityController {
 	}
 
 	@PostMapping("/updateOne")
-	public ResponseBean updateCommodity(@RequestBody Commodity commodity, ResponseBean rsp,MultipartFile file) {
-		/*System.out.println(commodity.getCommodityShelf()+"上架量");
-		System.out.println(commodity.getCommodityStock()+"库量");*/
+	public ResponseBean updateCommodity(@RequestBody Commodity commodity, ResponseBean rsp, MultipartFile file) {
+		/*
+		 * System.out.println(commodity.getCommodityShelf()+"上架量");
+		 * System.out.println(commodity.getCommodityStock()+"库量");
+		 */
+		String comName = commodity.getCommodityName();
+		System.out.println("name"+comName);
+		String comNum = transComNUm(comName);
+		commodity.setCommodityNum(comNum);
+		//System.out.println("num"+comNum);
+		System.out.println("num2"+commodity.getCommodityNum());
 		return rsp.setSuccess(commodityService.updateOneCommodity(commodity));
 
 	}
@@ -89,24 +100,40 @@ public class CommodityController {
 				return imgPath;
 			} else {
 				System.out.println("-----------------图片上传失败！");
-				return "http://localhost:8080/image/commodityPhoto/"+imgPath;
+				return "http://localhost:8080/image/commodityPhoto/" + imgPath;
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "http://localhost:8080/image/commodityPhoto/"+imgPath;
+			return "http://localhost:8080/image/commodityPhoto/" + imgPath;
 		}
 	}
-	
+
 	@PostMapping("/uploadImage")
-	public  ResponseBean uploadImage(MultipartFile file,ResponseBean rsp){
+	public ResponseBean uploadImage(MultipartFile file, ResponseBean rsp) {
 		return rsp.setSuccess(saveImage(file));
 	}
-	
-	//@PostMapping("/getClassNum")
-	public String getClassNum(@RequestParam("className") String className){
-		//return rsp.setSuccess(commodityService.getClassNum(className));
+
+	// @PostMapping("/getClassNum")
+	public String getClassNum(@RequestParam("className") String className) {
+		// return rsp.setSuccess(commodityService.getClassNum(className));
 		return commodityService.getClassNum(className);
 	}
-	
-}
+
+	//@PostMapping("/getTransComNUm")
+	public String transComNUm(@RequestParam("comName")  String comName){
+		String[] names=comName.split("-");
+		String fisrt = PinyinUtils.converterToFirstSpell(names[0]);
+		String second = PinyinUtils.converterToFirstSpell(names[1]).toLowerCase().toString();
+		String newstr = "";
+        
+
+		String newComNum = fisrt + newstr ;
+		for(int i=0;i<second.length();i++){
+			newComNum+=(int)(second.charAt(i)-96);
+			
+		}
+		return newComNum;
+	}
+		
+	}

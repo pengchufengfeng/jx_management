@@ -137,6 +137,9 @@
             <if test="commodityScale != null">
                 commodity_scale = #{commodityScale},
             </if>
+            <if test="commodityNum != null">
+                commodity_num = #{commodityNum},
+            </if>
             <if test="way != null">
                 way = #{way},
             </if> 

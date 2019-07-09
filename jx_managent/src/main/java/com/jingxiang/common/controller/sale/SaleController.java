@@ -60,7 +60,6 @@ public class SaleController {
 		Paging page = new Paging();
 		page.setPageNum(salePageReq.getPageNum());
 		page.setPageSize(salePageReq.getPageSize());
-		sale.setArtistId(salePageReq.getArtistId());
 		return saleService.findPageSale(page, sale);
 	}// 分页查询
 
@@ -85,27 +84,28 @@ public class SaleController {
 
 	@PostMapping("/addOne")
 	public ResponseBean addSale(@RequestBody Sale sale, ResponseBean rsp) {
-		//int saleNum = sale.getCommodityAmount();
+		int saleNum = sale.getCommodityAmount();
 		String comId = sale.getCommodityId();
 		Commodity commodity = commodityService.getOneCommodity(comId);
-		
-		/*int comStock = commodity.getCommodityStock();
+		int comStock = commodity.getCommodityStock();
 		if (saleNum <= comStock) {
 			comStock = comStock - saleNum;
 			if (comStock == 0) {
+				commodity.setCommodityStock(comStock);
 				commodity.setCommodityStatus("已售完");
 				commodityService.updateOneCommodity(commodity);
+				System.out.println("comStock"+comStock+"已售完");
 			} else {
-				commodity.setCommodityStatus("已销售");
+				commodity.setCommodityStock(comStock);
+				commodity.setCommodityStatus("上架");
 				commodityService.updateOneCommodity(commodity);
+				System.out.println("comStock"+comStock+"上架");
 			}
 		} else {
-			rsp.setError("库存不足，请重新输入！");
-		}*/
-        //String artistid=commodity.getArtistId();
-        //sale.setArtistId(artistid);
-        //sale.setCommodityName(commodity.getCommodityName());
-        //sale.setCommodityNum(commodity.getCommodityNum());
+			rsp.setError("库存不足，请重新输入商品数量！");
+		}
+        String artistid=commodity.getArtistId();
+        sale.setArtistId(artistid);
 		return rsp.setSuccess(saleService.addOneSale(sale));
 	}
 
@@ -117,12 +117,36 @@ public class SaleController {
 
 	@PostMapping("/updateOne")
 	public ResponseBean updateSale(@RequestBody Sale sale, ResponseBean rsp) {
-		//String comId = sale.getCommodityId();
-		//Commodity commodity = commodityService.getOneCommodity(comId);
-		//String artistid=commodity.getArtistId();
-	   // sale.setArtistId(artistid);
-	    /*sale.setCommodityName(commodity.getCommodityName());
-	    sale.setCommodityNum(commodity.getCommodityNum());*/
+		
+		int saleNum = sale.getCommodityAmount();
+		String comId = sale.getCommodityId();
+		Commodity commodity = commodityService.getOneCommodity(comId);
+		Sale oldSale = saleService.getOneSale(sale.getId());
+		//目前库存
+		int comStock = commodity.getCommodityStock();
+		// 旧销售数量
+		int oldSaleNum = oldSale.getCommodityAmount();
+		//旧的库存
+		int oldStock = comStock + oldSaleNum;
+		
+		if (saleNum <= oldStock) {
+			comStock = oldStock - saleNum;
+			if (comStock == 0) {
+				commodity.setCommodityStock(comStock);
+				commodity.setCommodityStatus("已售完");
+				commodityService.updateOneCommodity(commodity);
+				System.out.println("comStock"+comStock+"已售完");
+			} else {
+				commodity.setCommodityStock(comStock);
+				commodity.setCommodityStatus("上架");
+				commodityService.updateOneCommodity(commodity);
+				System.out.println("comStock"+comStock+"上架");
+			}
+		} else {
+			rsp.setError("库存不足，请重新输入商品数量！");
+		}
+        String artistid=commodity.getArtistId();
+        sale.setArtistId(artistid);
 		return rsp.setSuccess(saleService.updateOneSale(sale));
 	}
 

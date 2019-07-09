@@ -53,12 +53,12 @@
 		del_flag) VALUES(
 		#{id},
 		#{platid},
-		#{note},
 		#{activityName},
 		#{currentActivity},
 		#{artistid},
 		#{commodityName},
 		#{preDate},
+		#{note},
 		#{createDate},
 		#{creator},
 		#{updateDate},

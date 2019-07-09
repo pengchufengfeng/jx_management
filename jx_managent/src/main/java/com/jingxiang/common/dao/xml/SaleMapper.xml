@@ -177,7 +177,7 @@
         </if>
         <!-- saleName represent platid -->
         <if test="saleWay != null and saleWay != ''">
-	        AND c.sale_way = #{saleWay}
+	        AND s.sale_way = #{saleWay}
         </if>
         <!-- 时间段判断 -->
         <if test="startDate != null and startDate != ''">
