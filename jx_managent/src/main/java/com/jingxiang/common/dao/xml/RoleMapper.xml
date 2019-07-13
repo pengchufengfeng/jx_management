@@ -39,13 +39,13 @@
                   p.parent_id parent_id,
                   p.permission_name permission_name,
                   p.permission_code permission_code
-            FROM
+               FROM
                   sys_role_permission rp
-            left join  sys_role r
-            on r.id=rp.role_id
-            left join sys_permission p
-            on   p.id = rp.permission_id
-            WHERE   rp.role_id = #{id}
+                  left join  sys_role r
+                  on r.id=rp.role_id
+                  left join sys_permission p
+                  on  p.id = rp.permission_id
+               WHERE  rp.role_id = #{id}
     </select>
 </mapper>
 

@@ -9,6 +9,8 @@ import com.jingxiang.common.entity.common.ResponseBean;
 import com.jingxiang.common.entity.request.ArtistPageReq;
 import com.jingxiang.common.entity.request.ArtistRequest;
 import com.jingxiang.common.service.ArtistService;
+import com.jingxiang.common.util.PinyinUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,6 +75,9 @@ public class ArtistController {
 	@PostMapping("/addOne")
 	public ResponseBean addArtist(@RequestBody Artist artist,ResponseBean rsp){
 		
+		String name = artist.getArtistName();
+		String password = PinyinUtils.converterToFirstSpell(name).toLowerCase()+"123456";
+		artist.setPassword(password);
 		return rsp.setSuccess(artistService.addOneArtist(artist));
 	}
 	@PostMapping("/deleteOne")

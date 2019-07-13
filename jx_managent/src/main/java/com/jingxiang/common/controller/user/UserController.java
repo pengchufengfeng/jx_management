@@ -18,7 +18,7 @@ import com.jingxiang.common.entity.common.ResponseBean;
 import com.jingxiang.common.entity.request.UserPageReq;
 import com.jingxiang.common.entity.request.UserRequest;
 import com.jingxiang.common.service.UserService;
-
+import com.jingxiang.common.util.PinyinUtils;
 @RestController
 @RequestMapping("/User")
 public class UserController {
@@ -53,6 +53,11 @@ public class UserController {
 	}
 	@PostMapping("/addOne")
 	public ResponseBean addUser(@RequestBody User User,ResponseBean rsp){
+		
+		String name = User.getUserName();
+		String password = PinyinUtils.converterToFirstSpell(name).toLowerCase()+"123456";
+		User.setPassword(password);
+		
 		return rsp.setSuccess(userService.saveOneUser(User));
 	}
 	
@@ -61,7 +66,7 @@ public class UserController {
 		
 		return rsp.setSuccess(userService.deleteOneUser(id));
 	}
-	 @PostMapping("/login")
+	 /*@PostMapping("/login")
 	 public ResponseBean login( @RequestBody UserRequest  userRequest,ResponseBean responsebean,HttpSession session){
 		 
 		User user=new User();
@@ -79,7 +84,7 @@ public class UserController {
 		}
 		return responsebean;
 		
-	 }
+	 }*/
 	 @PostMapping("/getRolesByUser")
 	 public List<Role> getRolesByUser(@RequestParam("id") String id){
 		 
