@@ -143,7 +143,7 @@
             <if test="way != null">
                 way = #{way},
             </if> 
-            <if test="artist != null">
+            <if test="artistId != null">
                 artist = #{artistId},
             </if>
             <if test="palace != null">
