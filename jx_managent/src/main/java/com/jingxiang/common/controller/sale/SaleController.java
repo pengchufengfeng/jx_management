@@ -57,9 +57,11 @@ public class SaleController {
 	@PostMapping("/findPage")
 	PageInfo<Sale> findPageSale(@RequestBody SalePageReq salePageReq) {
 		Sale sale = new Sale();
+		sale.setArtistId(salePageReq.getArtistId());
 		Paging page = new Paging();
 		page.setPageNum(salePageReq.getPageNum());
 		page.setPageSize(salePageReq.getPageSize());
+		
 		return saleService.findPageSale(page, sale);
 	}// 分页查询
 

@@ -228,34 +228,34 @@
     <!--匠人月销售额折线图-->
     <select id="monthSalePrice" resultType="com.jingxiang.common.entity.MonthData">
         select
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.sale_price else 0 end) smonth6,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.sale_price else 0 end) smonth5,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.sale_price else 0 end) smonth4,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.sale_price else 0 end) smonth3,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.sale_price else 0 end) smonth2,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.sale_price else 0 end) smonth1,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) fmonth6,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) fmonth5,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) fmonth4,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) fmonth3,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) fmonth2,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) fmonth1
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.sale_price else 0 end) smonth6,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.sale_price else 0 end) smonth5,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.sale_price else 0 end) smonth4,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.sale_price else 0 end) smonth3,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.sale_price else 0 end) smonth2,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.sale_price else 0 end) smonth1,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) fmonth6,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) fmonth5,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) fmonth4,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) fmonth3,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) fmonth2,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) fmonth1
 
         from sys_sale s
-
         WHERE s.del_flag = 0
+        and s.artist_id=#{artistId}
 
     </select>
 
     <!--匠人月结算额折线图 -->
     <select id="monthFinalPrice" resultType="com.jingxiang.common.entity.MonthData">
         select
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) month6,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) month5,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) month4,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) month3,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) month2,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) month1
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) month6,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) month5,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) month4,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) month3,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) month2,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) month1
         from sys_sale s
         WHERE s.del_flag = 0
         and s.artist_id=#{artistId}
@@ -277,12 +277,12 @@
     <!--平台结算额饼形图 -->
     <select id="platFinalPrice" resultType="com.jingxiang.common.entity.MonthData">
         select p.way_name platName,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) smonth6,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) smonth5,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) smonth4,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) smonth3,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) smonth2,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) smonth1
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) smonth6,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) smonth5,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) smonth4,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) smonth3,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) smonth2,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) smonth1
         from sys_sale s
         left join sys_plat p
         on s.sale_way = p.id
@@ -294,12 +294,12 @@
     <!--商品销售量折线图 -->
     <select id="monthCommodityAmount" resultType="com.jingxiang.common.entity.MonthData">
         select
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.commodity_amount else 0 end) smonth6,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.commodity_amount else 0 end) smonth5,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.commodity_amount else 0 end) smonth4,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.commodity_amount else 0 end) smonth3,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.commodity_amount else 0 end) smonth2,
-        sum(case when s.create_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.commodity_amount else 0 end) smonth1
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.commodity_amount else 0 end) smonth6,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.commodity_amount else 0 end) smonth5,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.commodity_amount else 0 end) smonth4,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.commodity_amount else 0 end) smonth3,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.commodity_amount else 0 end) smonth2,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.commodity_amount else 0 end) smonth1
         from sys_sale s
         WHERE s.del_flag = 0
         and s.artist_id=#{artistId}
