@@ -32,10 +32,13 @@ public class Artist extends DataEntity{
 	private String openId;
 
 	private String sessionKey;
-
+    //手机号
 	private String phone;
+	//密码
 	private String password;
-
+    //匠人服务率
+	private String rate;
+	
 	public String getPhone() {
 		return phone;
 	}
@@ -154,6 +157,14 @@ public class Artist extends DataEntity{
 
 	public void setColContent(String colContent) {
 		this.colContent = colContent;
+	}
+
+	public String getRate() {
+		return rate;
+	}
+
+	public void setRate(String rate) {
+		this.rate = rate;
 	}
 
 

@@ -41,6 +41,8 @@ public class Sale extends DataEntity {
     private Date endDate;
     private String artistId;
     private String artistName;
+    //销售结算额
+    private Double saleFinalPrice;
 
 	public String getArtistId() {
 		return artistId;
@@ -237,6 +239,14 @@ public class Sale extends DataEntity {
 
 	public void setArtistName(String artistName) {
 		this.artistName = artistName;
+	}
+
+	public Double getSaleFinalPrice() {
+		return saleFinalPrice;
+	}
+
+	public void setSaleFinalPrice(Double saleFinalPrice) {
+		this.saleFinalPrice = saleFinalPrice;
 	}
 
 }
