@@ -41,7 +41,7 @@
         <parameter resultMap="note" property="note"/>
         <parameter resultMap="photo" property="photo"/>
         <parameter resultMap="commodity_stock" property="commodityStock"/>
-         <parameter resultMap="commodity_shelf" property="commodityShelf"/>
+        <parameter resultMap="commodity_shelf" property="commodityShelf"/>
         <parameter resultMap="commodity_status" property="commodityStatus"/>
         <parameter resultMap="create_date" property="createDate"/>
         <parameter resultMap="update_date" property="updateDate"/>
@@ -233,6 +233,21 @@
         WHERE
            del_flag = 0
         AND id = #{id}
+     </select>
+     <select id="getIdByComName" resultType="java.lang.String">
+        SELECT c.id
+        FROM sys_commodity c
+        WHERE
+           del_flag = 0
+        AND commodity_name = #{commodityName}
+     </select>
+     
+     <select id="getArtistIdByComName" resultType="java.lang.String">
+        SELECT c.artist
+        FROM sys_commodity c
+        WHERE
+           del_flag = 0
+        AND commodity_name = #{commodityName}
      </select>
 </mapper>
 

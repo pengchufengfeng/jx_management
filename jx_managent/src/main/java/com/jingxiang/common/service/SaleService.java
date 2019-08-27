@@ -22,7 +22,7 @@ public interface SaleService {
 	//更新销售
 	 int updateOneSale(Sale sale);
 	//新增销售
-	 int addOneSale(Sale sale);
+	 String addOneSale(Sale sale);
 	 //获取销售量
 	 Integer getComSaleNum(String commodityId);
 	 

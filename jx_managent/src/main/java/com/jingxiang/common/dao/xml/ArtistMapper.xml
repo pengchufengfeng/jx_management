@@ -19,6 +19,7 @@
 		<result column="commodity_class" property="commodityClass" />
 		<result column="open_id" property="openId" />
 		<result column="session_key" property="sessionKey" />
+		<result column="artist_rate" property="artistRate" />
 	</resultMap>
 
 	<parameterMap type="com.jingxiang.common.entity.Artist"
@@ -40,7 +41,7 @@
 		<parameter resultMap="commodity_class" property="commodityClass" />
 		<parameter resultMap="open_id" property="openId" />
 		<parameter resultMap="session_key" property="sessionKey" />
-		
+		<parameter resultMap="artist_rate" property="artistRate" />
 	</parameterMap>
 
 
@@ -66,6 +67,7 @@
 		creator,
 		update_date,
 		modifier,
+		artist_rate,
 		del_flag) VALUES(
 		#{id},
 		#{artistName},
@@ -87,6 +89,7 @@
 		#{creator},
 		#{updateDate},
 		#{modifier},
+		#{artistRate},
 		#{delFlag}
 		)
 	</insert>
@@ -169,7 +172,10 @@
 				password = #{password},
 			</if>
 			<if test="updateDate != null">
-				update_date = #{updateDate}
+				update_date = #{updateDate},
+			</if>
+            <if test="artistRate != null">
+				artist_rate = #{artistRate}
 			</if>
 
 		</set>
@@ -186,10 +192,10 @@
 		<if test="artistName != null">
 			AND artist_name like CONCAT('%', #{artistName}, '%')
 		</if>
-		<if test="phone != null">
+		<if test="phone != null and phone != ''">
 			AND phone = #{phone}
 		</if>
-		<if test="password != null">
+		<if test="password != null  and password != ''">
 			AND password = #{password}
 		</if>
 		order by create_date desc
@@ -205,7 +211,7 @@
 
 	<!--查找所有数据 -->
 	<select id="findAllList" resultMap="ArtistResultMap">
-		SELECT id,artist_name from sys_artist
+		SELECT id,artist_name ,artist_rate from sys_artist
 		where del_flag = 0
 	</select>
 

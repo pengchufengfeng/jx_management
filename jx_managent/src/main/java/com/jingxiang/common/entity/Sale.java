@@ -7,8 +7,6 @@ import java.util.Date;
 
 public class Sale extends DataEntity {
 	
-	
-	
 	//商品id
 	private String commodityId;
 	//商品名称
@@ -39,11 +37,23 @@ public class Sale extends DataEntity {
     private Date startDate;
     //结束时间
     private Date endDate;
+    
     private String artistId;
+    
     private String artistName;
+    
+    private String platId;
     //销售结算额
     private Double saleFinalPrice;
-
+    // 匠人结算额
+    private Double artistFinalPrice;
+    //销售平台服务率
+    private Double platRate;
+    //匠人服务率
+    private Double artistRate;
+    //销售状态
+    private String saleStatus;
+    
 	public String getArtistId() {
 		return artistId;
 	}
@@ -247,6 +257,46 @@ public class Sale extends DataEntity {
 
 	public void setSaleFinalPrice(Double saleFinalPrice) {
 		this.saleFinalPrice = saleFinalPrice;
+	}
+
+	public Double getArtistRate() {
+		return artistRate;
+	}
+
+	public void setArtistRate(Double artistRate) {
+		this.artistRate = artistRate;
+	}
+
+	public Double getPlatRate() {
+		return platRate;
+	}
+
+	public void setPlatRate(Double platRate) {
+		this.platRate = platRate;
+	}
+
+	public Double getArtistFinalPrice() {
+		return artistFinalPrice;
+	}
+
+	public void setArtistFinalPrice(Double artistFinalPrice) {
+		this.artistFinalPrice = artistFinalPrice;
+	}
+
+	public String getSaleStatus() {
+		return saleStatus;
+	}
+
+	public void setSaleStatus(String saleStatus) {
+		this.saleStatus = saleStatus;
+	}
+
+	public String getPlatId() {
+		return platId;
+	}
+
+	public void setPlatId(String platId) {
+		this.platId = platId;
 	}
 
 }

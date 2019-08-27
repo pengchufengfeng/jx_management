@@ -20,7 +20,7 @@ public class Commodity extends DataEntity {
     private Artist artist;
     //艺术家Id
     private String artistId;
-    
+    //艺术家名称
     private String artistName;
   
 

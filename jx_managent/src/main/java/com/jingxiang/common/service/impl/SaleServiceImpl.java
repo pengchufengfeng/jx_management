@@ -58,10 +58,10 @@ public class SaleServiceImpl extends CrudService<SaleMapper,Sale> implements Sal
 	}
 
 	@Override
-	public int addOneSale(Sale sale) {
+	public String addOneSale(Sale sale) {
 		// TODO Auto-generated method stub
 		save(sale);
-		return 0;
+		return sale.getId();
 	}
 
 	@Override

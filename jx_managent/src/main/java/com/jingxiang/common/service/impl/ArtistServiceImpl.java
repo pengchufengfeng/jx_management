@@ -1,19 +1,20 @@
 package com.jingxiang.common.service.impl;
 
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jingxiang.common.dao.ArtistMapper;
 import com.jingxiang.common.entity.Artist;
 import com.jingxiang.common.entity.ArtistNewPassword;
 import com.jingxiang.common.entity.common.Paging;
-import com.jingxiang.common.service.CrudService;
 import com.jingxiang.common.service.ArtistService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
+import com.jingxiang.common.service.CrudService;
 
 
 @Service

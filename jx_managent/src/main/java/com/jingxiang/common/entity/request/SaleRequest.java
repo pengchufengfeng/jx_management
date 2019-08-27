@@ -21,7 +21,9 @@ public class SaleRequest {
     private Date endDate;
 
     private String artistId;
-
+    //销售状态
+    private String saleStatus;
+    
     public String getArtistId() {
         return artistId;
     }
@@ -80,6 +82,14 @@ public class SaleRequest {
 
 	public void setCommodityNum(String commodityNum) {
 		this.commodityNum = commodityNum;
+	}
+
+	public String getSaleStatus() {
+		return saleStatus;
+	}
+
+	public void setSaleStatus(String saleStatus) {
+		this.saleStatus = saleStatus;
 	}
 
 	

@@ -37,7 +37,7 @@ public class Artist extends DataEntity{
 	//密码
 	private String password;
     //匠人服务率
-	private String rate;
+	private double artistRate;
 	
 	public String getPhone() {
 		return phone;
@@ -159,12 +159,14 @@ public class Artist extends DataEntity{
 		this.colContent = colContent;
 	}
 
-	public String getRate() {
-		return rate;
+	
+
+	public double getArtistRate() {
+		return artistRate;
 	}
 
-	public void setRate(String rate) {
-		this.rate = rate;
+	public void setArtistRate(double artistRate) {
+		this.artistRate = artistRate;
 	}
 
 

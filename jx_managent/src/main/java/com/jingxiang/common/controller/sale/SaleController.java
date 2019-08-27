@@ -1,6 +1,7 @@
 package com.jingxiang.common.controller.sale;
 
 import com.github.pagehelper.PageInfo;
+import com.jingxiang.common.entity.Account;
 import com.jingxiang.common.entity.Commodity;
 import com.jingxiang.common.entity.MonthData;
 import com.jingxiang.common.entity.Sale;
@@ -8,6 +9,7 @@ import com.jingxiang.common.entity.common.Paging;
 import com.jingxiang.common.entity.common.ResponseBean;
 import com.jingxiang.common.entity.request.SalePageReq;
 import com.jingxiang.common.entity.request.SaleRequest;
+import com.jingxiang.common.service.Accountservice;
 import com.jingxiang.common.service.CommodityService;
 import com.jingxiang.common.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class SaleController {
 	private SaleService saleService;
 	@Autowired
 	private CommodityService commodityService;
+	@Autowired
+	private Accountservice accountService;
+	
 
 	@PostMapping("/findList")
 	public List<Sale> findListSale(@RequestBody SaleRequest saleRequest) {
@@ -45,6 +50,7 @@ public class SaleController {
 		sale.setCommodityNum(saleRequest.getCommodityNum());
 		sale.setEndDate(saleRequest.getEndDate());
 		sale.setStartDate(saleRequest.getStartDate());
+		sale.setSaleStatus(saleRequest.getSaleStatus());
 
 		return rsp.setSuccess(saleService.findListSale(sale));
 	}// 列表查询
@@ -108,7 +114,14 @@ public class SaleController {
 		}
 		String artistid = commodity.getArtistId();
 		sale.setArtistId(artistid);
-		return rsp.setSuccess(saleService.addOneSale(sale));
+		String saleId = saleService.addOneSale(sale);
+		Account account = new Account();
+		account.setSaleId(saleId);
+		account.setSalePrice(sale.getSalePrice());
+		account.setDiscount(1.0);
+		accountService.addOneAccount(account);
+		
+		return rsp.setSuccess(saleId);
 	}
 
 	@PostMapping("/deleteOne")
@@ -131,6 +144,7 @@ public class SaleController {
 			commodityService.updateOneCommodity(commodity);
 			System.out.println("comStock" + comStock + "上架");
 		}
+		accountService.deleteOneAccount(id);
 		return rsp.setSuccess(saleService.deleteOneSale(id));
 	}
 
