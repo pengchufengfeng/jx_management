@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingxiang.common.dao.PlatDetailMapper">
+
+<resultMap id="PlatDetailResultMap" type="com.jingxiang.common.entity.PlatDetail">
+        <result column="id" property="id"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="activity_name" property="activityName"/>
+        <result column="plat_rate" property="platRate"/>
+        <result column="plat_id" property="platId"/>
+        <result column="way_name" property="platName"/>
+        
+    </resultMap>
+
+	<parameterMap type="com.jingxiang.common.entity.PlatDetail" id="PlatDetailParameterMap">
+        <parameter resultMap="id" property="id"/>
+        <parameter resultMap="create_date" property="createDate"/>
+        <parameter resultMap="update_date" property="updateDate"/>
+        <parameter resultMap="del_flag" property="delFlag"/>
+        <parameter resultMap="activity_name" property="activityName"/>
+        <parameter resultMap="plat_rate" property="platRate"/>
+        <parameter resultMap="plat_id" property="platId"/>
+        <parameter resultMap="way_name" property="platName"/>
+        <parameter resultMap="plat_name" property="platName"/>
+        
+	 </parameterMap>
+ 
+      <!--根据平台获取所有活动-->
+    <select id="findAllActivity" resultMap="PlatDetailResultMap">
+    	select 
+    	pd.id,
+    	pd.activity_name,
+    	pd.plat_rate,
+    	pd.plat_id,
+    	p.way_name 
+    	from sys_plat_detail pd
+    	left join sys_plat p
+    	on  pd.plat_id = p.id
+    	where pd.del_flag = 0
+    	and  pd.plat_id = #{id}
+    </select>
+    <select id="getIdByNameandStyle" resultType="java.lang.String"  parameterMap="PlatDetailParameterMap">
+    	select 
+    	pd.id
+    	from sys_plat_detail pd
+    	where pd.del_flag = 0
+    	and pd.plat_name = #{platName}
+    	and pd.activity_name = #{activityName}
+    </select>
+
+    
+
+</mapper>

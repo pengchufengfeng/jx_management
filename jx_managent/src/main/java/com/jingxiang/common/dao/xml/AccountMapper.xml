@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingxiang.common.dao.AccountMapper">
+
+<resultMap id="AccountResultMap" type="com.jingxiang.common.entity.Account">
+        <result column="id" property="id"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="sale_id" property="saleId"/>
+        <result column="sale_final_price" property="saleFinalPrice"/>
+        <result column="artist_final_price" property="artistFinalPrice"/>
+        <result column="final_price" property="finalPrice"/>
+        <result column="discount" property="discount"/>
+        <result column="change_price" property="changePrice"/>
+        <result column="reduct_price" property="reductPrice"/>
+        <result column="note" property="note"/>
+        <result column="count_date" property="countDate"/>
+        <result column="commodity_name" property="commodityName"/>
+        <result column="plat_name" property="platName"/>
+        <result column="artist_name" property="artistName"/>
+        <result column="artist_rate" property="artistRate"/>
+        <result column="plat_rate" property="platRate"/>
+        <result column="sale_price" property="salePrice"/>
+        <result column="commodity_amount" property="commodityAmount"/>
+        <result column="sale_style" property="saleStyle"/>
+        <result column="pre_price" property="prePrice"/>
+        
+    </resultMap>
+
+	<parameterMap type="com.jingxiang.common.entity.Account" id="AccountParameterMap">
+        <parameter resultMap="id" property="id"/>
+        <parameter resultMap="create_date" property="createDate"/>
+        <parameter resultMap="update_date" property="updateDate"/>
+        <parameter resultMap="del_flag" property="delFlag"/>
+        <parameter resultMap="sale_id" property="saleId"/>
+        <parameter resultMap="sale_final_price" property="saleFinalPrice"/>
+        <parameter resultMap="artist_final_price" property="artistFinalPrice"/>
+        <parameter resultMap="final_price" property="finalPrice"/>
+        <parameter resultMap="discount" property="discount"/>
+        <parameter resultMap="change_price" property="changePrice"/>
+        <parameter resultMap="reduct_price" property="reductPrice"/>
+        <parameter resultMap="note" property="note"/>
+        <parameter resultMap="count_date" property="countDate"/>
+        
+        
+	 </parameterMap>
+ 
+     <!--根据id更新平台信息 -->
+	<update id="update" parameterMap="AccountParameterMap">
+		UPDATE sys_account
+		<set>
+			<if test="saleId != null">
+				sale_id = #{saleId},
+			</if>
+			<if test="saleFinalPrice != null">
+				sale_final_price = #{saleFinalPrice},
+			</if>
+			<if test="artistFinalPrice != null">
+				artist_final_price = #{artistFinalPrice},
+			</if>
+			<if test="finalPrice != null">
+				final_price = #{finalPrice},
+			</if>
+			<if test="discount != null">
+				discount = #{discount},
+			</if>
+			<if test="changePrice != null">
+				change_price = #{changePrice},
+			</if>
+			<if test="reductPrice != null">
+				reduct_price = #{reductPrice},
+			</if>
+			<if test="note != null">
+				note = #{note},
+			</if>
+			<if test="countDate != null">
+				count_date = #{countDate}
+			</if>
+			
+
+		</set>
+		WHERE
+		id = #{id}
+	</update>
+	 <!--根据id查询单条数据-->
+    <select id="get" resultMap="AccountResultMap">
+    	select ac.*,c.commodity_name,a.artist_name,a.artist_rate,pd.plat_rate,pd.plat_name,s.sale_price,s.commodity_amount,s.sale_style,s.pre_price
+    	from sys_account ac
+        left join sys_sale s
+        on s.id = ac.sale_id
+        left join sys_commodity c
+        on s.commodity_id = c.id
+        left join sys_artist a
+        on a.id = c.artist
+        left join sys_plat_detail pd
+        on pd.id = s.sale_way
+    	where 
+    	ac.id = #{id}
+    	and ac.del_flag = 0
+    	and s.sale_status = '已完成销售'
+    	and s.del_flag = 0
+    </select>
+     <!--根据entity自定义条件查询-->
+    <select id="findList" resultMap="AccountResultMap">
+    	select ac.*,c.commodity_name,a.artist_name,a.artist_rate,pd.plat_rate,pd.plat_name,s.sale_price,s.commodity_amount,s.sale_style,s.pre_price
+    	from sys_account ac
+        left join sys_sale s
+        on s.id = ac.sale_id
+        left join sys_commodity c
+        on s.commodity_id = c.id
+        left join sys_artist a
+        on a.id = c.artist
+        left join sys_plat_detail pd
+        on pd.id = s.sale_way
+    	where s.del_flag = 0
+    	and s.sale_status = '已完成销售'
+    	and ac.del_flag = 0
+        order by ac.create_date desc
+       <!--  <if test="wayName != null and wayName != ''">
+	        AND pd.plat_name = #{wayName}
+        </if> 
+        <if test="artistId != null and artistId != ''">
+            AND s.artist_id = #{artistId}
+        </if> -->
+    </select>
+    
+    <update id="deleteById">
+        UPDATE sys_account
+        SET
+        del_flag = 1,
+        <!-- update_date = #{updateDate},  -->
+        modifier = #{modifier}
+        WHERE id = #{id}
+    </update>
+     <insert id="insert" parameterMap="AccountParameterMap" >
+        INSERT INTO sys_account(
+        id,
+        sale_id,
+        discount,
+        change_price,
+        reduct_price,
+        note,
+		create_date,
+		creator,
+		update_date,
+		modifier,
+		final_price,
+		sale_final_price,
+		artist_final_price,
+		del_flag) VALUES(
+        #{id},
+        #{saleId},
+        #{discount},
+        #{changePrice},
+        #{reductPrice},
+        #{note},
+        #{createDate},
+        #{creator},
+        #{updateDate},
+        #{modifier},
+        #{finalPrice},
+        #{saleFinalPrice},
+        #{artistFinalPrice},
+        #{delFlag}
+        )
+    </insert>
+    
+	
+	<update id="deleteBySaleId">
+        UPDATE sys_account
+        SET
+        del_flag = 1,
+        <!-- update_date = #{updateDate},  -->
+        modifier = #{modifier}
+        WHERE sale_id = #{saleId}
+    </update>
+	
+     
+
+
+</mapper>
