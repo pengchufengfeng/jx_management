@@ -70,9 +70,13 @@ public class SaleUploadServiceImpl  implements SaleLoadService{
 	            //销售额
 	            sale.setSalePrice(row.getCell(3).getNumericCellValue());
 	            //System.out.print("销售额"+row.getCell(3).getNumericCellValue());
+	            //实际销售额
+	            sale.setSaleFactPrice(row.getCell(4).getNumericCellValue());
+	            //退款额
+	            sale.setSaleBackPrice(row.getCell(5).getNumericCellValue());
 	            //销售平台
-	            String platName = row.getCell(4).getStringCellValue();
-	            String activityName = row.getCell(5).getStringCellValue();
+	            String platName = row.getCell(6).getStringCellValue();
+	            String activityName = row.getCell(7).getStringCellValue();
 	            String platId = platDetailMapper.getIdByNameandStyle(platName, activityName);
 	            sale.setSaleWay(platId);
 	            //System.out.print("platId额"+platId);
@@ -80,17 +84,17 @@ public class SaleUploadServiceImpl  implements SaleLoadService{
 	            sale.setSaleStyle(activityName);
 	            //System.out.print("activityName额"+activityName);
 	            //销售状态
-	            sale.setSaleStatus(row.getCell(6).getStringCellValue());
+	            sale.setSaleStatus(row.getCell(8).getStringCellValue());
 	            //System.out.print("销售状态额"+row.getCell(6).getStringCellValue());
                 //销售时间
 	            //System.out.print("销售时间"+row.getCell(7).getDateCellValue());
-	            Date saleDate = row.getCell(7).getDateCellValue();
-	            System.out.print("销售状态额"+row.getCell(7).getDateCellValue());
+	            Date saleDate = row.getCell(9).getDateCellValue();
+	            //System.out.print("销售状态额"+row.getCell(9).getDateCellValue());
 	            
 	            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	            ParsePosition pos = new ParsePosition(8);
 		        String saleDateString = formatter.format(saleDate);
-		        System.out.print("销售状态额22"+saleDateString);
+		        //System.out.print("销售状态额22"+saleDateString);
 		        //sale.setSaleDate(saleDate);
 		        Date saleDateFormat;
 				try {

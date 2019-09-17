@@ -25,6 +25,8 @@
         <result column="commodity_amount" property="commodityAmount"/>
         <result column="sale_style" property="saleStyle"/>
         <result column="pre_price" property="prePrice"/>
+        <result column="sale_back_price" property="saleBackPrice"/>
+        <result column="sale_fact_price" property="saleFactPrice"/>
         
     </resultMap>
 
@@ -85,7 +87,8 @@
 	</update>
 	 <!--根据id查询单条数据-->
     <select id="get" resultMap="AccountResultMap">
-    	select ac.*,c.commodity_name,a.artist_name,a.artist_rate,pd.plat_rate,pd.plat_name,s.sale_price,s.commodity_amount,s.sale_style,s.pre_price
+    	select ac.*,c.commodity_name,a.artist_name,a.artist_rate,pd.plat_rate,pd.plat_name,s.sale_price,
+    	s.commodity_amount,s.sale_style,s.pre_price,s.sale_back_price,sale_fact_price
     	from sys_account ac
         left join sys_sale s
         on s.id = ac.sale_id
@@ -98,12 +101,13 @@
     	where 
     	ac.id = #{id}
     	and ac.del_flag = 0
-    	and s.sale_status = '已完成销售'
+    	and s.sale_status != '已退货退款'
     	and s.del_flag = 0
     </select>
      <!--根据entity自定义条件查询-->
     <select id="findList" resultMap="AccountResultMap">
-    	select ac.*,c.commodity_name,a.artist_name,a.artist_rate,pd.plat_rate,pd.plat_name,s.sale_price,s.commodity_amount,s.sale_style,s.pre_price
+    	select ac.*,c.commodity_name,a.artist_name,a.artist_rate,pd.plat_rate,pd.plat_name,s.sale_price,s.commodity_amount,s.sale_style,s.pre_price,
+    	s.sale_back_price,sale_fact_price
     	from sys_account ac
         left join sys_sale s
         on s.id = ac.sale_id
@@ -114,7 +118,7 @@
         left join sys_plat_detail pd
         on pd.id = s.sale_way
     	where s.del_flag = 0
-    	and s.sale_status = '已完成销售'
+    	and s.sale_status != '已退货退款'
     	and ac.del_flag = 0
         order by ac.create_date desc
        <!--  <if test="wayName != null and wayName != ''">

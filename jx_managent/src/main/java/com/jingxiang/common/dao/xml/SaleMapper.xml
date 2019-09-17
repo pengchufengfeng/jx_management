@@ -26,6 +26,8 @@
         <result column="plat_rate" property="platRate"/>
         <result column="artist_rate" property="artistRate"/>
         <result column="sale_status" property="saleStatus"/>
+         <result column="sale_fact_price" property="saleFactPrice"/>
+        <result column="sale_back_price" property="saleBackPrice"/>
         
     </resultMap>
 
@@ -53,6 +55,9 @@
         <parameter resultMap="sale_status" property="saleStatus"/>
         <parameter resultMap="plat_rate" property="platRate"/>
         <parameter resultMap="artist_rate" property="artistRate"/>
+        <parameter resultMap="sale_fact_price" property="saleFactPrice"/>
+        <parameter resultMap="sale_back_price" property="saleBackPrice"/>
+        
 	 </parameterMap>
  
   
@@ -77,6 +82,8 @@
 		sale_status,
 		plat_rate,
 		artist_rate,
+		sale_fact_price,
+		sale_back_price,
 		del_flag) VALUES(
         #{id},
         #{commodityId},
@@ -97,6 +104,8 @@
         #{saleStatus},
         #{platRate},
         #{artistRate},
+        #{saleFactPrice},
+        #{saleBackPrice},
         #{delFlag}
         )
     </insert>
@@ -169,8 +178,16 @@
                artist_final_price = #{artistFinalPrice},
             </if>
              <if test="saleStatus != null">
-               sale_status = #{saleStatus}
+               sale_status = #{saleStatus},
             </if>
+             <if test="saleFactPrice != null">
+               sale_fact_price = #{saleFactPrice},
+            </if>
+            
+             <if test="saleBackPrice != null">
+               sale_back_price = #{saleBackPrice}
+            </if>
+            
          </set>
         WHERE
         id = #{id}

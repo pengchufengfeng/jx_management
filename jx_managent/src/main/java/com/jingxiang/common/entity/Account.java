@@ -37,6 +37,10 @@ public class Account extends DataEntity{
 	private  String platRate;
 	//销售额
 	private double salePrice;
+	//商品退款额
+	private Double saleBackPrice;
+	//商品实际销售额
+	private Double saleFactPrice;
 	//销售数量
 	private double commodityAmount;
 	//销售平台
@@ -156,6 +160,18 @@ public class Account extends DataEntity{
 	}
 	public void setChangePrice(double changePrice) {
 		this.changePrice = changePrice;
+	}
+	public Double getSaleBackPrice() {
+		return saleBackPrice;
+	}
+	public void setSaleBackPrice(Double saleBackPrice) {
+		this.saleBackPrice = saleBackPrice;
+	}
+	public Double getSaleFactPrice() {
+		return saleFactPrice;
+	}
+	public void setSaleFactPrice(Double saleFactPrice) {
+		this.saleFactPrice = saleFactPrice;
 	}
 
 	

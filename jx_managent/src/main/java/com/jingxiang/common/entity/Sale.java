@@ -17,8 +17,12 @@ public class Sale extends DataEntity {
 	private int commodityAmount;
 	//销售平台
 	private String saleWay;
-	//商品销售价
+	//商品销售额
 	private Double salePrice;
+	//商品退款额
+	private Double saleBackPrice;
+	//商品实际销售额
+	private Double saleFactPrice;
 	//商品结算价
 	private Double finalPrice;
 	//商品单价
@@ -297,6 +301,22 @@ public class Sale extends DataEntity {
 
 	public void setPlatId(String platId) {
 		this.platId = platId;
+	}
+
+	public Double getSaleBackPrice() {
+		return saleBackPrice;
+	}
+
+	public void setSaleBackPrice(Double saleBackPrice) {
+		this.saleBackPrice = saleBackPrice;
+	}
+
+	public Double getSaleFactPrice() {
+		return saleFactPrice;
+	}
+
+	public void setSaleFactPrice(Double saleFactPrice) {
+		this.saleFactPrice = saleFactPrice;
 	}
 
 }

@@ -119,6 +119,7 @@ public class SaleController {
 		account.setSaleId(saleId);
 		account.setSalePrice(sale.getSalePrice());
 		account.setDiscount(1.0);
+		
 		accountService.addOneAccount(account);
 		
 		return rsp.setSuccess(saleId);

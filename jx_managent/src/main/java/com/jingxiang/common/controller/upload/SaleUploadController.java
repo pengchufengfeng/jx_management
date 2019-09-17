@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jingxiang.common.controller.sale.SaleController;
 import com.jingxiang.common.entity.Sale;
 import com.jingxiang.common.entity.common.ResponseBean;
 import com.jingxiang.common.service.SaleLoadService;
@@ -31,6 +32,9 @@ public class SaleUploadController {
     private SaleLoadService saleLoadService;
     @Autowired
     private SaleService saleService;
+    @Autowired
+    private SaleController saleController;
+    
 
     @PostMapping("/saleExcelUpload")
     public ResponseBean singleFileUpload(MultipartFile file,ResponseBean rsp) {
@@ -46,7 +50,7 @@ public class SaleUploadController {
         List<Sale> result = saleLoadService.castToSale(new File(UPLOADED_FOLDER + file.getOriginalFilename()));
         //添加数据库
         for(Sale sale : result) {
-        	saleService.addOneSale(sale);
+        	saleController.addSale(sale, rsp);
         }
         return  rsp.setSuccess("上传成功");
     }
