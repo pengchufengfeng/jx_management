@@ -47,7 +47,7 @@ public class Sale extends DataEntity {
     private String artistName;
     
     private String platId;
-    //销售结算额
+    //销售平台结算价
     private Double saleFinalPrice;
     // 匠人结算额
     private Double artistFinalPrice;

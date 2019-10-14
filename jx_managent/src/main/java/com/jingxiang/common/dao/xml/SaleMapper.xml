@@ -258,10 +258,11 @@
     </select>
 
 
-    <!--总销售额-->
+    <!--总实际销售额-->
     <select id="allSalePrice" resultType="java.lang.Integer">
-        select sum(sale_price) from sys_sale WHERE del_flag=0 and artist_id=#{artistId}
+        select sum(a.saleFactPrice) from sys_account a WHERE  a.sale_id in (select id from sys_sale where artist_id=#{artistId}) and del_flag=0 
     </select>
+    
     <!--总结算额-->
     <select id="allFinalPrice" resultType="java.lang.Integer">
         select sum(a.artist_final_price)
@@ -277,28 +278,31 @@
     <select id="allCommodityAmount" resultType="java.lang.Integer">
         select sum(commodity_amount) from sys_sale WHERE del_flag=0 and artist_id=#{artistId}
     </select>
+    
     <!--某商品销售量-->
     <select id="getCommodityAmount" resultType="java.lang.Integer">
         select sum(commodity_amount) from sys_sale WHERE del_flag=0 and commodity_id=#{commodityId}
     </select>
 
-    <!--匠人月销售额折线图-->
+    <!--匠人月实际销售额折线图-->
     <select id="monthSalePrice" resultType="com.jingxiang.common.entity.MonthData">
         select
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.sale_price else 0 end) smonth6,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.sale_price else 0 end) smonth5,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.sale_price else 0 end) smonth4,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.sale_price else 0 end) smonth3,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.sale_price else 0 end) smonth2,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.sale_price else 0 end) smonth1,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) fmonth6,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) fmonth5,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) fmonth4,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) fmonth3,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) fmonth2,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) fmonth1
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then a.sale_fact_price else 0 end) smonth6,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then a.sale_fact_price else 0 end) smonth5,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then a.sale_fact_price 0 end) smonth4,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then a.sale_fact_price else 0 end) smonth3,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then a.sale_fact_price else 0 end) smonth2,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then a.sale_fact_price else 0 end) smonth1,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then a.artist_final_price else 0 end) fmonth6,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then a.artist_final_price else 0 end) fmonth5,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then a.artist_final_price else 0 end) fmonth4,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then a.artist_final_price else 0 end) fmonth3,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then a.artist_final_price else 0 end) fmonth2,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then a.artist_final_price else 0 end) fmonth1
 
         from sys_sale s
+        left join sys_account a
+        on a.sale_id = s.id 
         WHERE s.del_flag = 0
         and s.artist_id=#{artistId}
 
@@ -333,7 +337,7 @@
         and a.del_flag = 0
     </select>
 
-    <!--TODO平台销售额和结算额饼形图-->
+    <!--TODO平台实际销售额和平台结算额饼形图-->
      <!--<select id="platSaleAndFinallyPrice" resultType="com.jingxiang.common.entity.MonthData">
         select p.way_name platName,
          sum(s.sale_price) saleMoney,
@@ -349,8 +353,8 @@
     
     <select id="platSaleAndFinallyPrice" resultType="com.jingxiang.common.entity.MonthData">
         select pd.plat_name platName,
-        sum(s.sale_price) saleMoney,
-        sum(a.artist_final_price) FinallyMoney
+        sum(a.sale_fact_price) saleMoney,
+        sum(a.sale_final_price) FinallyMoney
         from sys_account a
         left join sys_sale s
         on  a.sale_id = s.id
@@ -362,7 +366,7 @@
         GROUP BY pd.plat_name
     </select>
 
-    <!--平台结算额饼形图 -->
+    <!--平台结算额柱状图 -->
     <!--<select id="platFinalPrice" resultType="com.jingxiang.common.entity.MonthData">
         select p.way_name platName,
         sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) smonth6,
@@ -381,15 +385,17 @@
    
     <select id="platFinalPrice" resultType="com.jingxiang.common.entity.MonthData">
         select pd.plat_name platName,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then s.final_price else 0 end) smonth6,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then s.final_price else 0 end) smonth5,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then s.final_price else 0 end) smonth4,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then s.final_price else 0 end) smonth3,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then s.final_price else 0 end) smonth2,
-        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then s.final_price else 0 end) smonth1
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -6 MONTH) and DATE_ADD(NOW(), INTERVAL -5 MONTH) then a.sale_final_price else 0 end) smonth6,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -5 MONTH) and DATE_ADD(NOW(), INTERVAL -4 MONTH) then a.sale_final_price else 0 end) smonth5,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -4 MONTH) and DATE_ADD(NOW(), INTERVAL -3 MONTH) then a.sale_final_price else 0 end) smonth4,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -3 MONTH) and DATE_ADD(NOW(), INTERVAL -2 MONTH) then a.sale_final_price else 0 end) smonth3,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -2 MONTH) and DATE_ADD(NOW(), INTERVAL -1 MONTH) then a.sale_final_price else 0 end) smonth2,
+        sum(case when s.sale_date between DATE_ADD(NOW(), INTERVAL -1 MONTH) and DATE_ADD(NOW(), INTERVAL -0 MONTH) then a.sale_final_price else 0 end) smonth1
         from sys_sale s
         left join sys_plat_detail pd
         on s.sale_way = pd.id
+        left join sys_account a
+        on  a.sale_id = s.id
         WHERE s.del_flag = 0
         and s.artist_id=#{artistId}
         and pd.del_flag = 0
