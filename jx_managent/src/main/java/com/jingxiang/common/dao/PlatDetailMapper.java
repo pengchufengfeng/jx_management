@@ -9,7 +9,6 @@ import com.jingxiang.common.entity.PlatDetail;
 @Mapper
 public interface PlatDetailMapper  extends CrudDao<PlatDetail>{
 
-	
 	List<PlatDetail> findAllActivity(String id);
 	String getIdByNameandStyle(String platName ,String activityName);
 }

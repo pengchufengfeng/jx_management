@@ -6,8 +6,11 @@ public class PlatDetail  extends DataEntity{
 	
 	//平台id
 	private String platId;
+	//平台名称
 	private String platName;
+	//活动名称
 	private String activityName;
+	//平台服务费率
 	private Double platRate;
 	public String getPlatId() {
 		return platId;

@@ -4,6 +4,8 @@ public class PlatDetailRequest {
 	
 	private String platName;
 	private String activityName;
+	private String platId;
+	
 	public String getPlatName() {
 		return platName;
 	}
@@ -15,6 +17,12 @@ public class PlatDetailRequest {
 	}
 	public void setActivityName(String activityName) {
 		this.activityName = activityName;
+	}
+	public String getPlatId() {
+		return platId;
+	}
+	public void setPlatId(String platId) {
+		this.platId = platId;
 	}
 
 }

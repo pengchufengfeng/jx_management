@@ -56,10 +56,8 @@
         del_flag = 1,
         update_date = #{updateDate},
         modifier = #{modifier}
-        WHERE
-        <if test="nickName != null">
-            nick_name = #{nickName}
-        </if>
+        WHERE WHERE id = #{id}
+       
     </update>
 
     

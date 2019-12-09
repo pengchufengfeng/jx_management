@@ -10,8 +10,7 @@
         <result column="activity_name" property="activityName"/>
         <result column="plat_rate" property="platRate"/>
         <result column="plat_id" property="platId"/>
-        <result column="way_name" property="platName"/>
-        
+        <result column="plat_name" property="platName"/>
     </resultMap>
 
 	<parameterMap type="com.jingxiang.common.entity.PlatDetail" id="PlatDetailParameterMap">
@@ -49,7 +48,90 @@
     	and pd.plat_name = #{platName}
     	and pd.activity_name = #{activityName}
     </select>
+    
+    <select id="get" resultMap="PlatDetailResultMap">
+    	select * from sys_plat_detail 
+    	where 
+    	id = #{id}
+    </select>
+    
+     <insert id="insert" parameterMap="PlatDetailParameterMap" >
+        INSERT INTO sys_plat_detail(
+          id,
+		  plat_id,
+		  plat_name,
+		  activity_name,
+		  plat_rate,
+		  create_date,
+		  creator,
+		  update_date,
+		  modifier,
+		  del_flag) VALUES(
+        #{id},
+        #{platId},
+        #{platName},
+        #{activityName},
+        #{platRate},
+        #{createDate},
+        #{creator},
+        #{updateDate},
+        #{modifier},
+        #{delFlag}
+        )
+    </insert>
+    
+     <!--根据entity自定义条件删除-->
+    <update id="deleteById" parameterMap="PlatDetailParameterMap">
+        update  sys_plat_detail
+        set
+        del_flag = 1,
+        modifier = #{modifier}
+        WHERE id = #{id}
+        
+    </update>
 
     
+    <!--根据id更新平台信息-->
+    <update id="update" parameterMap="PlatDetailParameterMap" >
+        UPDATE  sys_plat_detail
+        <set>         
+            <if test="platId != null">
+                plat_id = #{platId},
+            </if> 
+            <if test="platName != null">
+                plat_name = #{platName},
+            </if>
+            <if test="activityName != null">
+                activity_name = #{activityName},
+            </if>
+            <if test="platRate != null">
+                plat_rate = #{platRate},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate}
+            </if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+    
+     <!--查找所有数据-->
+    <select id="findAllList" resultMap="PlatDetailResultMap">
+        SELECT * from sys_plat_detail
+        where del_flag = 0
+    </select>
+    
+     <!--根据entity自定义条件查询-->
+    <select id="findList" resultMap="PlatDetailResultMap">
+    	select * from sys_plat_detail
+    	where del_flag = 0
+        <if test="platName != null">
+            AND  plat_name like  CONCAT('%', #{platName}, '%')
+        </if>
+        order by create_date desc
+    </select>
 
 </mapper>
