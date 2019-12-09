@@ -16,6 +16,7 @@ public class CommonApplication {
         //factory.setLocation("/home/jingxiangputi");
         //factory.setLocation("/home/jxpt/tmp");
         return factory.createMultipartConfig();
+        //test
     }
     public static void main(String[] args) {
         SpringApplication.run(CommonApplication.class, args);
